@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffd166">
+<title>ハンバーガーやさん おしごとたいけん</title>
+<style>
+  :root{
+    --ink:#4a2f1b;
+    --ink-soft:#8a6a4c;
+    --cream:#fffdf5;
+    --card:#ffffff;
+    --bun:#f0bd6f;
+    --bun-d:#d99f4b;
+    --orange:#ff8a3d;
+    --orange-d:#d15a15;
+    --pink:#ff7a9c;
+    --green:#5cc756;
+    --blue:#3fb3f0;
+    --line:#efdcc0;
+  }
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  .emo, .avatar, .chip .e, .side, .ing .ico, .hint .ico, .result-emoji, .conf, .st, .star-row .who,
+  .coin-pill .c, .title-art .spark, .badge .e, .tray-empty .big{
+    font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","EmojiOne Color",sans-serif;
+    font-weight:400;
+  }
+  html,body{ height:100%; margin:0; }
+  body{
+    font-family:"Hiragino Maru Gothic ProN","Hiragino Sans","M PLUS Rounded 1c","BIZ UDPGothic",
+                system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP",sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 18% 12%, #ffe9ae 0%, rgba(255,233,174,0) 45%),
+      radial-gradient(circle at 85% 85%, #c8ecff 0%, rgba(200,236,255,0) 50%),
+      #fff3d8;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+    user-select:none; -webkit-user-select:none;
+    font-weight:700;
+  }
+  @media (min-width:560px){
+    body{
+      background:
+        radial-gradient(circle at 15% 10%, #ffe1a0 0%, rgba(255,225,160,0) 40%),
+        radial-gradient(circle at 88% 90%, #bfe8ff 0%, rgba(191,232,255,0) 45%),
+        radial-gradient(circle at 50% 50%, #fff6e2 0%, #ffe7bd 100%);
+    }
+  }
+
+  .stage{ width:100%; height:100vh; height:100dvh; display:flex; align-items:center; justify-content:center; }
+
+  .phone{
+    position:relative;
+    width:100%; max-width:430px;
+    height:100vh; height:100dvh;
+    display:flex; flex-direction:column;
+    background:linear-gradient(180deg,#fffdf7 0%, #fff4de 100%);
+    overflow:hidden;
+  }
+  @media (min-width:560px){
+    .phone{
+      height:min(880px, 94dvh);
+      border-radius:42px;
+      border:9px solid #2b1d12;
+      box-shadow:0 30px 70px rgba(90,50,10,.35), 0 0 0 3px rgba(255,255,255,.6) inset;
+    }
+  }
+
+  /* ---------- screens ---------- */
+  .screen{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column;
+    padding:calc(10px + env(safe-area-inset-top)) 12px calc(12px + env(safe-area-inset-bottom));
+    overflow:hidden;
+    opacity:0; pointer-events:none; transform:scale(.985);
+    transition:opacity .26s ease, transform .26s ease;
+  }
+  .screen.active{ opacity:1; pointer-events:auto; transform:none; }
+
+  /* ---------- burger parts ---------- */
+  .burger{
+    position:relative;
+    display:flex; flex-direction:column-reverse; align-items:center;
+    filter:drop-shadow(0 8px 6px rgba(140,80,20,.18));
+  }
+  .layer{ flex:0 0 auto; position:relative; }
+  .bun-bottom{
+    width:168px; height:30px;
+    background:linear-gradient(180deg,#f5c881,#e3a852);
+    border-radius:10px 10px 18px 18px;
+    box-shadow:inset 0 -4px 0 rgba(150,90,20,.18);
+  }
+  .bun-bottom::after, .bun-top::after{
+    content:""; position:absolute; inset:0; border-radius:inherit;
+    background-image:
+      radial-gradient(circle at 24% 45%, #fff6dc 2.3px, transparent 2.6px),
+      radial-gradient(circle at 48% 60%, #fff6dc 2.1px, transparent 2.4px),
+      radial-gradient(circle at 70% 38%, #fff6dc 2.2px, transparent 2.5px),
+      radial-gradient(circle at 86% 58%, #fff6dc 1.9px, transparent 2.2px);
+  }
+  .bun-top{
+    width:176px; height:36px;
+    background:linear-gradient(180deg,#f8cf8a,#ecb463);
+    border-radius:90px 90px 12px 12px;
+    box-shadow:inset 0 -4px 0 rgba(150,90,20,.14);
+    opacity:0; transform:scale(.55) translateY(10px);
+    transition:opacity .22s ease, transform .3s cubic-bezier(.2,1.6,.5,1);
+  }
+  .bun-top.show{ opacity:1; transform:none; }
+  .patty{
+    width:160px; height:26px;
+    background:linear-gradient(180deg,#8d5731,#6a3d21);
+    border-radius:16px 16px 15px 15px;
+    box-shadow:inset 0 5px 0 rgba(255,255,255,.12), inset 0 -5px 0 rgba(0,0,0,.16);
+  }
+  .cheese{
+    width:166px; height:15px;
+    background:linear-gradient(180deg,#ffdc45,#f2b81c);
+    border-radius:7px 7px 13px 13px;
+    box-shadow:inset 0 -3px 0 rgba(190,130,0,.35);
+  }
+  .lettuce{
+    width:174px; height:17px;
+    background:
+      radial-gradient(circle at 8px 0, #7bdb6c 9px, transparent 10px) 0 0/18px 17px repeat-x,
+      linear-gradient(180deg,#63cc5b,#4fb44c);
+    border-radius:12px;
+  }
+  .tomato{
+    width:164px; height:16px;
+    background:linear-gradient(180deg,#ff8a78,#e64b3a);
+    border-radius:9px;
+    box-shadow:inset 0 -3px 0 rgba(150,20,10,.25);
+  }
+  .bacon{
+    width:172px; height:13px;
+    background:repeating-linear-gradient(90deg,#e86855 0 15px,#f8e6d2 15px 23px);
+    border-radius:8px;
+    box-shadow:inset 0 -2px 0 rgba(120,40,20,.18);
+  }
+  @keyframes pop{
+    0%{ transform:translateY(-46px) scale(.55); opacity:0; }
+    62%{ transform:translateY(3px) scale(1.07); opacity:1; }
+    100%{ transform:none; }
+  }
+  .layer.pop{ animation:pop .34s cubic-bezier(.2,1.5,.5,1); }
+
+  /* ---------- HUD ---------- */
+  .hud{
+    display:flex; align-items:center; gap:8px;
+    flex:0 0 auto;
+  }
+  .coin-pill{
+    display:inline-flex; align-items:center; gap:5px;
+    background:#fff; border:3px solid #ffe0a3;
+    border-radius:999px; padding:5px 12px 5px 8px;
+    font-size:17px; font-weight:900; color:#a4661a;
+    box-shadow:0 3px 0 rgba(220,170,90,.28);
+  }
+  .coin-pill .c{ font-size:19px; }
+  .dots{ display:flex; gap:7px; margin-left:auto; margin-right:2px; }
+  .dot{
+    width:12px; height:12px; border-radius:50%;
+    background:#f0e0c4; box-shadow:inset 0 2px 0 rgba(180,140,80,.18);
+    transition:background .2s, transform .2s;
+  }
+  .dot.done{ background:#7ddc6f; }
+  .dot.now{ background:#ffb02e; transform:scale(1.25); }
+  .icon-btn{
+    width:44px; height:44px; flex:0 0 auto;
+    border:none; border-radius:14px; background:#fff;
+    box-shadow:0 3px 0 #f0e0c4;
+    font-size:18px; cursor:pointer; line-height:1;
+  }
+  .icon-btn:active{ transform:translateY(2px); box-shadow:0 1px 0 #f0e0c4; }
+
+  /* ---------- customer ---------- */
+  .customer{
+    flex:0 0 auto;
+    display:flex; align-items:flex-start; gap:8px;
+    margin-top:8px;
+  }
+  .avatar{
+    flex:0 0 auto;
+    width:64px; height:64px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:38px; line-height:1;
+    background:#ffe1ec;
+    box-shadow:0 4px 0 rgba(200,140,160,.25), inset 0 0 0 4px #fff;
+    animation:bob 2.4s ease-in-out infinite;
+  }
+  @keyframes bob{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-5px) } }
+  .avatar.happy{ animation:jump .5s ease 2; }
+  @keyframes jump{ 0%,100%{ transform:translateY(0) scale(1) } 40%{ transform:translateY(-14px) scale(1.06) } }
+
+  .bubble{
+    position:relative; flex:1 1 auto; min-width:0;
+    background:#fff; border:3px solid var(--line);
+    border-radius:18px; padding:8px 10px;
+    box-shadow:0 4px 0 rgba(220,190,150,.28);
+  }
+  .bubble::before{
+    content:""; position:absolute; left:-11px; top:20px;
+    width:14px; height:14px; background:#fff;
+    border-left:3px solid var(--line); border-bottom:3px solid var(--line);
+    transform:rotate(45deg);
+  }
+  .bubble-text{
+    margin:0; font-size:13.5px; line-height:1.45; letter-spacing:.01em;
+    color:var(--ink);
+  }
+  .bubble-text .strong{ color:#e2542a; }
+  .chips{ display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; }
+  .chip{
+    display:inline-flex; align-items:center; gap:2px;
+    background:#fff8ea; border:2px solid #ffe6bf;
+    border-radius:999px; padding:1px 6px 1px 4px;
+    font-size:15px; line-height:1.3;
+  }
+  .chip .n{ font-size:11px; font-weight:900; color:#a4661a; }
+  .chip.side, .chip.chip-side{ background:#eff9ff; border-color:#cdeaff; }
+
+  /* ---------- tray ---------- */
+  .tray{
+    position:relative; flex:1 1 auto; min-height:150px;
+    max-height:clamp(200px, 42vh, 360px);
+    margin-top:8px;
+    border-radius:24px;
+    background:
+      linear-gradient(180deg,#ffffff,#fff9ef);
+    border:3px dashed #f3ddb9;
+    display:flex; align-items:center; justify-content:center;
+    padding:20px 10px 8px;
+    transition:background .2s;
+  }
+  .tray.shake{ animation:shake .34s ease; }
+  @keyframes shake{
+    0%,100%{ transform:translateX(0) } 20%{ transform:translateX(-6px) }
+    40%{ transform:translateX(6px) } 60%{ transform:translateX(-4px) } 80%{ transform:translateX(4px) }
+  }
+  .tray-tag{
+    position:absolute; top:8px; left:12px;
+    font-size:11px; color:#c8ab84; letter-spacing:.12em;
+  }
+  .tray-guide{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:min(62%, 210px); aspect-ratio:1; border-radius:50%;
+    border:3px dashed #f3e2c4; background:radial-gradient(circle at 50% 45%, #fffdf6, #fff7e6);
+    transition:opacity .3s;
+  }
+  .tray.has-stack .tray-guide{ opacity:.35; }
+  .tray-empty{
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:4px;
+    color:#d8c3a4; font-size:12.5px; text-align:center; padding:0 20px;
+    pointer-events:none; z-index:3;
+  }
+  .tray-empty .big{ font-size:34px; }
+  .tray-empty .txt{ font-size:12.5px; color:#cdb797; line-height:1.5; max-width:160px; }
+  .tray-empty.hide{ display:none; }
+
+  .tray .burger{ z-index:2; }
+  .burger{ transform:scale(var(--bs,1.14)); transform-origin:center center; }
+  .tray .burger{ transition:opacity .18s ease; }
+  .tray .burger.is-empty{ opacity:0; }
+  .sides{
+    position:absolute; right:12px; bottom:12px;
+    display:flex; flex-direction:column; gap:6px; align-items:center;
+  }
+  .side{
+    font-size:34px; line-height:1; cursor:pointer;
+    filter:drop-shadow(0 3px 2px rgba(140,90,30,.25));
+  }
+  .side.pop{ animation:pop .34s cubic-bezier(.2,1.5,.5,1); }
+
+  /* ---------- hint ---------- */
+  .hint{
+    flex:0 0 auto; min-height:32px; margin-top:6px;
+    display:flex; align-items:center; justify-content:center; gap:4px;
+    text-align:center; font-size:12px; line-height:1.35;
+    color:#b3702a; opacity:0; transition:opacity .2s;
+  }
+  .hint.show{ opacity:1; }
+  .hint .ico{ font-size:15px; }
+
+  /* ---------- actions ---------- */
+  .actions{ flex:0 0 auto; display:flex; gap:8px; margin-top:auto; padding-top:6px; }
+  .btn{
+    border:none; font-family:inherit; cursor:pointer;
+    touch-action:manipulation;
+    transition:transform .07s ease, box-shadow .07s ease, opacity .15s;
+  }
+  .btn.primary{
+    flex:1 1 auto; min-height:58px; border-radius:20px;
+    font-size:19px; font-weight:900; color:#fff; letter-spacing:.02em;
+    background:linear-gradient(180deg,#ffa35f,#ff7f2f);
+    box-shadow:0 5px 0 var(--orange-d), 0 10px 18px rgba(255,127,47,.3);
+  }
+  .btn.primary:active{ transform:translateY(4px); box-shadow:0 1px 0 var(--orange-d); }
+  .btn.primary[disabled]{ opacity:.45; }
+  .btn.ghost{
+    flex:0 0 auto; min-width:86px; min-height:58px; border-radius:20px;
+    font-size:14px; font-weight:900; color:#a07b4e;
+    background:#fff; box-shadow:0 4px 0 #ecd9ba;
+  }
+  .btn.ghost:active{ transform:translateY(3px); box-shadow:0 1px 0 #ecd9ba; }
+
+  /* ---------- palette ---------- */
+  .palette-title{
+    flex:0 0 auto; font-size:11.5px; color:#c8ab84; letter-spacing:.1em;
+    margin:8px 0 4px 4px;
+  }
+  .palette{
+    flex:0 0 auto;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:7px;
+    padding-bottom:2px;
+  }
+  .ing{
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px;
+    min-height:72px; border:none; border-radius:18px; cursor:pointer;
+    background:#fff; font-family:inherit; color:var(--ink);
+    box-shadow:0 4px 0 #efdcbd, 0 6px 10px rgba(160,120,60,.08);
+    touch-action:manipulation;
+    transition:transform .07s, box-shadow .07s;
+    padding:4px 2px;
+  }
+  .ing:active{ transform:translateY(4px); box-shadow:0 1px 0 #efdcbd; }
+  .ing .ico{ font-size:24px; line-height:1.15; }
+  .ing .lbl{ font-size:11.5px; font-weight:900; letter-spacing:.01em; }
+  .ing.side-btn{ background:#f5fbff; box-shadow:0 4px 0 #d5ecfa; }
+  .ing.side-btn:active{ box-shadow:0 1px 0 #d5ecfa; }
+  .palette.locked{ opacity:.4; pointer-events:none; }
+
+  /* ---------- title screen ---------- */
+  #screen-title{ align-items:center; justify-content:center; text-align:center; }
+  .title-art{ position:relative; margin-bottom:2px; animation:float 3.4s ease-in-out infinite; }
+  .title-art .burger{ --bs:1.18; }
+  .title-shadow{
+    width:190px; height:16px; margin:-6px auto 0;
+    background:radial-gradient(ellipse at center, rgba(180,120,50,.22), rgba(180,120,50,0) 70%);
+    border-radius:50%;
+  }
+  @keyframes float{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-10px) } }
+  .title-art .spark{ position:absolute; font-size:20px; }
+  .title-art .s1{ top:-6px; left:-32px; animation:twinkle 1.8s ease-in-out infinite; }
+  .title-art .s2{ top:12px; right:-30px; animation:twinkle 1.8s .5s ease-in-out infinite; }
+  .title-art .s3{ bottom:2px; left:-22px; animation:twinkle 1.8s 1s ease-in-out infinite; }
+  @keyframes twinkle{ 0%,100%{ opacity:.3; transform:scale(.8) } 50%{ opacity:1; transform:scale(1.15) } }
+  .title-head{
+    font-size:27px; line-height:1.25; margin:14px 0 4px;
+    letter-spacing:.02em;
+    color:#7a4a1e;
+    text-shadow:0 3px 0 #fff, 0 5px 0 rgba(200,150,80,.25);
+  }
+  .title-sub{
+    font-size:16px; color:#c2762f; margin:0 0 4px; letter-spacing:.14em;
+  }
+  .title-note{
+    font-size:13px; color:#b79a78; margin:8px 0 20px; line-height:1.7;
+  }
+  .title-badges{ display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:18px; }
+  .badge{
+    display:inline-flex; align-items:center; gap:4px;
+    background:#fff; border:2px solid #f0e0c4; border-radius:999px;
+    padding:4px 9px; font-size:11px; color:#a07b4e;
+    box-shadow:0 3px 0 rgba(220,190,150,.25);
+  }
+  .badge .e{ font-size:13px; }
+  .btn.big{
+    flex:0 0 auto; width:100%; max-width:320px; min-height:68px;
+    border-radius:24px; padding:14px 18px;
+    font-size:22px;
+  }
+  .title-foot{ margin-top:16px; font-size:11.5px; color:#c8ab84; letter-spacing:.06em; }
+
+  /* ---------- result ---------- */
+  #screen-result{ align-items:center; justify-content:center; text-align:center; }
+  .result-card{
+    width:100%; max-width:360px; background:#fff;
+    border:3px solid var(--line); border-radius:28px;
+    padding:22px 18px 20px; box-shadow:0 8px 0 rgba(220,190,150,.3);
+  }
+  .result-emoji{ font-size:46px; line-height:1; animation:jump 1s ease 2; display:inline-block; }
+  .result-title{
+    font-size:24px; margin:6px 0 14px; color:#7a4a1e; letter-spacing:.02em;
+  }
+  .coin-total{
+    display:inline-flex; align-items:baseline; gap:6px;
+    background:#fff8e6; border:3px solid #ffe0a3; border-radius:999px;
+    padding:6px 18px; color:#a4661a;
+  }
+  .coin-total .c{ font-size:24px; }
+  .coin-total .v{ font-size:34px; font-weight:900; letter-spacing:.02em; }
+  .coin-total .u{ font-size:14px; }
+  .star-rows{ margin:16px 0 6px; display:flex; flex-direction:column; gap:7px; }
+  .star-row{
+    display:flex; align-items:center; gap:8px;
+    background:#fffaf0; border-radius:14px; padding:7px 12px; font-size:12.5px;
+  }
+  .star-row .who{ flex:0 0 auto; font-size:20px; }
+  .star-row .nm{ color:var(--ink-soft); margin-right:auto; }
+  .star-row .st{ letter-spacing:1px; font-size:14px; }
+  .praise{
+    font-size:13.5px; line-height:1.6; color:#8a6a4c; margin:12px 4px 18px;
+  }
+  .result-note{ margin-top:14px; font-size:11.5px; color:#c1a88a; }
+
+  /* ---------- fx ---------- */
+  .fx{ position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:60; }
+  .conf{
+    position:absolute; top:-36px; font-size:14px; will-change:transform, opacity;
+    animation:fall linear forwards; opacity:.9;
+  }
+  @keyframes fall{
+    0%{ transform:translate3d(0,0,0) rotate(0deg); opacity:0; }
+    12%{ opacity:1; }
+    100%{ transform:translate3d(var(--dx,0px), 960px, 0) rotate(var(--rot,360deg)); opacity:0; }
+  }
+  .coin-pop{
+    position:absolute; font-size:18px; font-weight:900; color:#e28a1b;
+    text-shadow:0 2px 0 #fff; animation:coinUp .95s ease-out forwards;
+  }
+  @keyframes coinUp{
+    0%{ transform:translateY(0) scale(.7); opacity:0; }
+    25%{ transform:translateY(-10px) scale(1.15); opacity:1; }
+    100%{ transform:translateY(-78px) scale(1); opacity:0; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.001s !important; animation-iteration-count:1 !important; transition-duration:.001s !important; }
+  }
+  @media (max-height:700px){
+    .bubble-text{ font-size:12.5px; }
+    .ing{ min-height:60px; }
+    .ing .ico{ font-size:21px; }
+    .avatar{ width:56px; height:56px; font-size:32px; }
+    .btn.primary{ min-height:52px; font-size:17.5px; }
+    .btn.ghost{ min-height:52px; }
+    .tray{ max-height:clamp(160px, 34vh, 260px); }
+    .tray-empty .big{ font-size:26px; }
+    #burger{ --bs:1; }
+  }
+  @media (max-height:620px){
+    .ing{ min-height:54px; }
+    .ing .lbl{ font-size:10.5px; }
+    .palette-title{ margin:6px 0 2px 4px; }
+    .hint{ min-height:26px; }
+    .title-head{ font-size:23px; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="phone" id="phone">
+
+    <!-- ===== タイトル ===== -->
+    <section class="screen active" id="screen-title">
+      <div class="title-art">
+        <span class="spark s1">✨</span><span class="spark s2">⭐</span><span class="spark s3">✨</span>
+        <div class="burger">
+          <div class="layer bun-bottom"></div>
+          <div class="layer lettuce"></div>
+          <div class="layer tomato"></div>
+          <div class="layer cheese"></div>
+          <div class="layer patty"></div>
+          <div class="layer bun-top show"></div>
+        </div>
+        <div class="title-shadow"></div>
+      </div>
+      <h1 class="title-head">ハンバーガーやさん<br>おしごとたいけん</h1>
+      <p class="title-note">ぐざいを ぽんぽん のせて、<br>おいしい ハンバーガーを とどけよう！</p>
+      <button class="btn primary big" id="startBtn">おしごとスタート！</button>
+      <div class="title-badges">
+        <span class="badge"><span class="e">🧑‍🤝‍🧑</span>おきゃくさん 3にん</span>
+        <span class="badge"><span class="e">⏱️</span>1〜2ぷん</span>
+        <span class="badge"><span class="e">🪙</span>コインが たまる</span>
+      </div>
+    </section>
+
+    <!-- ===== プレイ ===== -->
+    <section class="screen" id="screen-play">
+      <div class="hud">
+        <div class="coin-pill"><span class="c">🪙</span><span id="coinNum">0</span></div>
+        <div class="dots" id="dots">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+        <button class="icon-btn" id="soundBtn" aria-label="おとの せってい">🔊</button>
+      </div>
+
+      <div class="customer">
+        <div class="avatar" id="avatar" aria-hidden="true">🐰</div>
+        <div class="bubble">
+          <p class="bubble-text" id="bubbleText">ハンバーガーを ひとつ ください！</p>
+          <div class="chips" id="chips"></div>
+        </div>
+      </div>
+
+      <div class="tray" id="tray">
+        <span class="tray-tag">おぼん</span>
+        <div class="tray-guide" aria-hidden="true"></div>
+        <div class="tray-empty" id="trayEmpty">
+          <span class="big emo">🍔</span>
+          <span class="txt">ここに ぐざいを<br>のせてね</span>
+        </div>
+        <div class="burger" id="burger">
+          <div class="layer bun-bottom"></div>
+          <div class="layer bun-top" id="topBun"></div>
+        </div>
+        <div class="sides" id="sides"></div>
+      </div>
+
+      <div class="hint" id="hint" role="status" aria-live="polite"></div>
+
+      <div class="actions">
+        <button class="btn ghost" id="resetBtn">やりなおす</button>
+        <button class="btn primary" id="serveBtn">おまたせしました！</button>
+        <button class="btn primary" id="nextBtn" style="display:none">つぎの おきゃくさん</button>
+      </div>
+
+      <div class="palette-title">ぐざいを おしてね</div>
+      <div class="palette" id="palette"></div>
+    </section>
+
+    <!-- ===== リザルト ===== -->
+    <section class="screen" id="screen-result">
+      <div class="result-card">
+        <span class="result-emoji">🎉</span>
+        <h2 class="result-title">おしごと かんりょう！</h2>
+        <div class="coin-total"><span class="c">🪙</span><span class="v" id="totalCoin">0</span><span class="u">コイン</span></div>
+        <div class="star-rows" id="starRows"></div>
+        <p class="praise" id="praise"></p>
+        <button class="btn primary" id="againBtn" style="width:100%">もういっかい あそぶ</button>
+        <p class="result-note">おうちの ひとに みせてあげよう！</p>
+      </div>
+    </section>
+
+    <div class="fx" id="fx"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ---------- データ ---------- */
+  var ING = {
+    patty:   { label:'ハンバーグ', ico:'🥩', cls:'patty' },
+    cheese:  { label:'チーズ',     ico:'🧀', cls:'cheese' },
+    lettuce: { label:'レタス',     ico:'🥬', cls:'lettuce' },
+    tomato:  { label:'トマト',     ico:'🍅', cls:'tomato' },
+    bacon:   { label:'ベーコン',   ico:'🥓', cls:'bacon' }
+  };
+  var ING_KEYS = ['patty','cheese','lettuce','tomato','bacon'];
+
+  var SIDE = {
+    potato: { label:'ポテト',  ico:'🍟' },
+    juice:  { label:'ジュース', ico:'🥤' }
+  };
+
+  var CUSTOMERS = [
+    {
+      emoji:'🐰', bg:'#ffe1ec', who:'うさぎの ぽんた',
+      line:'ハンバーガーを ひとつ ください！',
+      want:{ patty:1 }, sides:{}, coin:3,
+      thanks:'わあ！ おいしそう！ ありがとう！'
+    },
+    {
+      emoji:'🐻', bg:'#ffe9c9', who:'くまの こぐま',
+      line:'チーズバーガーと ポテトを ください！',
+      want:{ patty:1, cheese:1 }, sides:{ potato:1 }, coin:4,
+      thanks:'チーズが とろとろ！ ありがとう！'
+    },
+    {
+      emoji:'🧑‍🤝‍🧑', bg:'#dff0ff', who:'かぞく',
+      line:'ぜんぶのせバーガーと、ポテトと ジュースを ください！',
+      want:{ patty:1, cheese:1, lettuce:1, tomato:1, bacon:1 },
+      sides:{ potato:1, juice:1 }, coin:5,
+      thanks:'すごい！ ぜんぶ のってる！ ありがとう！'
+    }
+  ];
+
+  /* ---------- 要素 ---------- */
+  var $ = function(id){ return document.getElementById(id); };
+  var el = {
+    screens:{ title:$('screen-title'), play:$('screen-play'), result:$('screen-result') },
+    start:$('startBtn'), again:$('againBtn'),
+    coinNum:$('coinNum'), dots:$('dots'), sound:$('soundBtn'),
+    avatar:$('avatar'), bubble:$('bubbleText'), chips:$('chips'),
+    tray:$('tray'), trayEmpty:$('trayEmpty'), burger:$('burger'), topBun:$('topBun'),
+    sides:$('sides'), hint:$('hint'), palette:$('palette'),
+    serve:$('serveBtn'), next:$('nextBtn'), reset:$('resetBtn'),
+    totalCoin:$('totalCoin'), starRows:$('starRows'), praise:$('praise'),
+    fx:$('fx')
+  };
+
+  /* ---------- サウンド（WebAudioのみ・外部ファイルなし） ---------- */
+  var ac = null, soundOn = true;
+  function ctx(){
+    if(!ac){
+      var C = window.AudioContext || window.webkitAudioContext;
+      if(!C) return null;
+      try{ ac = new C(); }catch(e){ return null; }
+    }
+    if(ac.state === 'suspended'){ try{ ac.resume(); }catch(e){} }
+    return ac;
+  }
+  function tone(freq, start, dur, type, vol){
+    var a = ctx(); if(!a) return;
+    try{
+      var t0 = a.currentTime + start;
+      var o = a.createOscillator(), g = a.createGain();
+      o.type = type || 'sine';
+      o.frequency.setValueAtTime(freq, t0);
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(vol || 0.18, t0 + 0.015);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+      o.connect(g); g.connect(a.destination);
+      o.start(t0); o.stop(t0 + dur + 0.02);
+    }catch(e){}
+  }
+  function sfx(name){
+    if(!soundOn) return;
+    if(name === 'tap'){ tone(680,0,0.09,'triangle',0.12); }
+    else if(name === 'side'){ tone(520,0,0.1,'sine',0.14); tone(780,0.05,0.1,'sine',0.1); }
+    else if(name === 'remove'){ tone(420,0,0.1,'sine',0.1); }
+    else if(name === 'no'){ tone(400,0,0.12,'sine',0.1); tone(320,0.1,0.16,'sine',0.1); }
+    else if(name === 'win'){
+      [523,659,784,1047].forEach(function(f,i){ tone(f, i*0.09, 0.22,'triangle',0.15); });
+    }
+    else if(name === 'coin'){ tone(1180,0,0.08,'square',0.07); tone(1560,0.06,0.1,'square',0.06); }
+    else if(name === 'clear'){
+      [523,587,659,784,880,1047].forEach(function(f,i){ tone(f, i*0.11, 0.3, 'triangle', 0.14); });
+      tone(1319, 0.66, 0.5, 'sine', 0.13);
+    }
+  }
+
+  /* ---------- 状態 ---------- */
+  var state = null;
+
+  function newGame(){
+    state = { i:0, stack:[], sides:{ potato:0, juice:0 }, coins:0, results:[], mistakes:0, served:false };
+  }
+
+  function showScreen(name){
+    Object.keys(el.screens).forEach(function(k){
+      el.screens[k].classList.toggle('active', k === name);
+    });
+  }
+
+  /* ---------- 描画ヘルパー ---------- */
+  function renderCoin(){
+    el.coinNum.textContent = String(state.coins);
+  }
+
+  function renderDots(){
+    var dots = el.dots.children;
+    for(var i=0;i<dots.length;i++){
+      dots[i].className = 'dot' + (i < state.i ? ' done' : (i === state.i ? ' now' : ''));
+    }
+  }
+
+  function chipHtml(key, n, isSide){
+    var d = isSide ? SIDE[key] : ING[key];
+    var badge = n > 1 ? '<span class="n">×' + n + '</span>' : '';
+    return '<span class="chip' + (isSide ? ' chip-side' : '') + '" title="' + d.label + '">' +
+             '<span class="e" aria-hidden="true">' + d.ico + '</span>' + badge +
+             '<span class="sr" style="position:absolute;left:-9999px">' + d.label + '</span>' +
+           '</span>';
+  }
+
+  function renderOrder(){
+    var c = CUSTOMERS[state.i];
+    el.avatar.textContent = c.emoji;
+    el.avatar.style.background = c.bg;
+    el.avatar.setAttribute('aria-label', c.who);
+    el.bubble.textContent = c.line;
+
+    var html = '';
+    Object.keys(c.want).forEach(function(k){ html += chipHtml(k, c.want[k], false); });
+    Object.keys(c.sides).forEach(function(k){ if(c.sides[k]) html += chipHtml(k, c.sides[k], true); });
+    el.chips.innerHTML = html;
+    el.chips.style.display = html ? 'flex' : 'none';
+  }
+
+  function buildPalette(){
+    var html = '';
+    ING_KEYS.forEach(function(k){
+      var d = ING[k];
+      html += '<button class="ing" data-add="' + k + '" aria-label="' + d.label + 'を のせる">' +
+                '<span class="ico" aria-hidden="true">' + d.ico + '</span>' +
+                '<span class="lbl">' + d.label + '</span></button>';
+    });
+    Object.keys(SIDE).forEach(function(k){
+      var d = SIDE[k];
+      html += '<button class="ing side-btn" data-side="' + k + '" aria-label="' + d.label + 'を おく">' +
+                '<span class="ico" aria-hidden="true">' + d.ico + '</span>' +
+                '<span class="lbl">' + d.label + '</span></button>';
+    });
+    el.palette.innerHTML = html;
+  }
+
+  function updateTrayEmpty(){
+    var empty = state.stack.length === 0 && state.sides.potato === 0 && state.sides.juice === 0;
+    el.trayEmpty.classList.toggle('hide', !empty);
+    el.burger.classList.toggle('is-empty', empty);
+    el.tray.classList.toggle('has-stack', !empty);
+    el.topBun.classList.toggle('show', state.stack.length > 0);
+  }
+
+  function makeLayer(key){
+    var d = document.createElement('div');
+    d.className = 'layer ' + ING[key].cls + ' pop';
+    d.setAttribute('aria-hidden','true');
+    return d;
+  }
+
+  /* ---------- 操作 ---------- */
+  function addLayer(key){
+    if(state.served) return;
+    clearHint();
+    state.stack.push(key);
+    var node = makeLayer(key);
+    el.burger.insertBefore(node, el.topBun);
+    updateTrayEmpty();
+    sfx('tap');
+  }
+
+  function removeLayer(){
+    if(state.served || state.stack.length === 0) return false;
+    state.stack.pop();
+    var last = el.topBun.previousElementSibling;
+    if(last && last.classList.contains('layer') && last !== el.burger.firstElementChild){
+      last.parentNode.removeChild(last);
+    }
+    updateTrayEmpty();
+    sfx('remove');
+    return true;
+  }
+
+  function addSide(key){
+    if(state.served) return;
+    if(state.sides[key] > 0){ removeSide(key); return; }
+    clearHint();
+    state.sides[key] = 1;
+    renderSides(true, key);
+    sfx('side');
+  }
+
+  function removeSide(key){
+    if(state.served || state.sides[key] === 0) return;
+    state.sides[key] = 0;
+    renderSides(false);
+    sfx('remove');
+  }
+
+  function renderSides(animate, key){
+    el.sides.innerHTML = '';
+    ['potato','juice'].forEach(function(k){
+      if(!state.sides[k]) return;
+      var s = document.createElement('span');
+      s.className = 'side' + (animate && k === key ? ' pop' : '');
+      s.textContent = SIDE[k].ico;
+      s.setAttribute('role','button');
+      s.setAttribute('aria-label', SIDE[k].label + 'を とる');
+      s.dataset.side = k;
+      el.sides.appendChild(s);
+    });
+    updateTrayEmpty();
+  }
+
+  function clearHint(){
+    el.hint.classList.remove('show');
+    el.hint.textContent = '';
+  }
+
+  var hintTimer = null;
+  function showHint(html){
+    el.hint.innerHTML = html;
+    el.hint.classList.add('show');
+    if(hintTimer) clearTimeout(hintTimer);
+    hintTimer = setTimeout(function(){ el.hint.classList.remove('show'); }, 4200);
+  }
+
+  /* ---------- 判定 ---------- */
+  function judge(){
+    var c = CUSTOMERS[state.i];
+    var have = {};
+    state.stack.forEach(function(k){ have[k] = (have[k] || 0) + 1; });
+
+    var missing = [], extra = [];
+    Object.keys(c.want).forEach(function(k){
+      var need = c.want[k] - (have[k] || 0);
+      if(need > 0) missing.push({ key:k, n:need, side:false });
+    });
+    Object.keys(have).forEach(function(k){
+      var over = have[k] - (c.want[k] || 0);
+      if(over > 0) extra.push({ key:k, n:over, side:false });
+    });
+    ['potato','juice'].forEach(function(k){
+      var want = c.sides[k] || 0;
+      var got = state.sides[k] || 0;
+      if(got < want) missing.push({ key:k, n:want - got, side:true });
+      if(got > want) extra.push({ key:k, n:got - want, side:true });
+    });
+
+    if(missing.length === 0 && extra.length === 0){ success(); return; }
+
+    state.mistakes++;
+    sfx('no');
+    el.tray.classList.remove('shake');
+    void el.tray.offsetWidth;
+    el.tray.classList.add('shake');
+
+    var parts = [];
+    missing.forEach(function(m){
+      var d = m.side ? SIDE[m.key] : ING[m.key];
+      parts.push('<span class="ico">' + d.ico + '</span> ' + d.label + 'が たりないよ');
+    });
+    extra.forEach(function(m){
+      var d = m.side ? SIDE[m.key] : ING[m.key];
+      parts.push('<span class="ico">' + d.ico + '</span> ' + d.label + 'が おおいよ');
+    });
+
+    el.bubble.innerHTML = '<span class="strong">あれれ？ もういちど みてみよう！</span>';
+    showHint(parts.join('　／　'));
+  }
+
+  function success(){
+    var c = CUSTOMERS[state.i];
+    var stars = state.mistakes === 0 ? 3 : (state.mistakes === 1 ? 2 : 1);
+    state.served = true;
+    state.results.push({ ico:c.emoji, who:c.who, stars:stars, coin:c.coin });
+    state.coins += c.coin;
+
+    el.bubble.textContent = c.thanks;
+    el.chips.style.display = 'none';
+    el.avatar.classList.remove('happy');
+    void el.avatar.offsetWidth;
+    el.avatar.classList.add('happy');
+
+    el.serve.style.display = 'none';
+    el.next.style.display = '';
+    el.palette.classList.add('locked');
+    el.reset.style.opacity = '.4';
+    el.reset.style.pointerEvents = 'none';
+
+    renderCoin();
+    floatCoin('+' + c.coin);
+    sfx('win');
+    setTimeout(function(){ sfx('coin'); }, 260);
+    confetti(20);
+
+    if(stars === 3) showHint('<span class="ico">⭐</span> ぴったり！ パーフェクト！');
+    else showHint('<span class="ico">😊</span> できた！ ありがとう！');
+    if(hintTimer) clearTimeout(hintTimer);
+  }
+
+  function nextCustomer(){
+    state.i++;
+    if(state.i >= CUSTOMERS.length){ finish(); return; }
+    state.stack = [];
+    state.sides = { potato:0, juice:0 };
+    state.mistakes = 0;
+    state.served = false;
+
+    el.burger.querySelectorAll('.layer.pop').forEach(function(n){ n.parentNode.removeChild(n); });
+    el.topBun.classList.remove('show');
+    el.sides.innerHTML = '';
+    el.serve.style.display = '';
+    el.next.style.display = 'none';
+    el.palette.classList.remove('locked');
+    el.reset.style.opacity = '';
+    el.reset.style.pointerEvents = '';
+    el.bubble.className = 'bubble-text';
+    clearHint();
+    renderOrder();
+    renderDots();
+    updateTrayEmpty();
+  }
+
+  function finish(){
+    showScreen('result');
+    el.totalCoin.textContent = String(state.coins);
+
+    var rows = '';
+    state.results.forEach(function(r){
+      rows += '<div class="star-row"><span class="who" aria-hidden="true">' + r.ico + '</span>' +
+              '<span class="nm">' + r.who + '</span>' +
+              '<span class="st" aria-label="ほし ' + r.stars + 'こ">' +
+              '⭐'.repeat(r.stars) + '<span style="opacity:.22">' + '⭐'.repeat(3 - r.stars) + '</span>' +
+              '</span></div>';
+    });
+    el.starRows.innerHTML = rows;
+
+    var totalStars = state.results.reduce(function(a,r){ return a + r.stars; }, 0);
+    var praise;
+    if(totalStars >= 9) praise = 'パーフェクト！ きみは プロの シェフだね！ 🍔✨';
+    else if(totalStars >= 6) praise = 'すごい！ とても じょうずに できました！ 👏';
+    else praise = 'よく がんばったね！ もういちど やってみよう！ 🌟';
+
+    el.praise.textContent = praise;
+    sfx('clear');
+    confetti(26);
+  }
+
+  /* ---------- 演出 ---------- */
+  function confetti(n){
+    var chars = ['⭐','✨','🎉','💛','💚','💙','🍔'];
+    for(var i=0;i<n;i++){
+      (function(i){
+        var s = document.createElement('span');
+        s.className = 'conf';
+        s.textContent = chars[(Math.random()*chars.length)|0];
+        s.style.left = (6 + Math.random()*88) + '%';
+        s.style.fontSize = (10 + Math.random()*9) + 'px';
+        s.style.setProperty('--dx', (Math.random()*90 - 45) + 'px');
+        s.style.setProperty('--rot', (Math.random()*720 - 360) + 'deg');
+        s.style.animationDuration = (1.5 + Math.random()*1.1) + 's';
+        s.style.animationDelay = (Math.random()*0.25) + 's';
+        el.fx.appendChild(s);
+        setTimeout(function(){ if(s.parentNode) s.parentNode.removeChild(s); }, 3200);
+      })(i);
+    }
+  }
+
+  function floatCoin(text){
+    var p = document.createElement('span');
+    p.className = 'coin-pop';
+    p.textContent = text;
+    var r = el.coinNum.getBoundingClientRect();
+    var pr = el.fx.getBoundingClientRect();
+    p.style.left = Math.max(12, r.left - pr.left) + 'px';
+    p.style.top = Math.max(12, r.top - pr.top) + 'px';
+    el.fx.appendChild(p);
+    setTimeout(function(){ if(p.parentNode) p.parentNode.removeChild(p); }, 1100);
+  }
+
+  /* ---------- イベント ---------- */
+  el.palette.addEventListener('click', function(e){
+    var btn = e.target.closest('button');
+    if(!btn) return;
+    if(btn.dataset.add){ addLayer(btn.dataset.add); }
+    else if(btn.dataset.side){ addSide(btn.dataset.side); }
+    if(!state.served) renderOrder(); // ヒント表示から注文表示に戻す
+  });
+
+  el.sides.addEventListener('click', function(e){
+    var s = e.target.closest('.side');
+    if(!s) return;
+    removeSide(s.dataset.side);
+  });
+
+  el.burger.addEventListener('click', function(e){
+    if(e.target === el.topBun || e.target.classList.contains('layer')){
+      if(!state.served && state.stack.length){
+        removeLayer();
+        showHint('<span class="ico">👆</span> うえの ぐざいを とったよ');
+      }
+    }
+  });
+
+  el.serve.addEventListener('click', function(){
+    if(state.served) return;
+    if(state.stack.length === 0 && state.sides.potato === 0 && state.sides.juice === 0){
+      sfx('no');
+      el.tray.classList.remove('shake');
+      void el.tray.offsetWidth;
+      el.tray.classList.add('shake');
+      showHint('<span class="ico">🍽️</span> まだ なにも のってないよ。ぐざいを おしてね');
+      return;
+    }
+    judge();
+  });
+
+  el.next.addEventListener('click', nextCustomer);
+
+  el.reset.addEventListener('click', function(){
+    if(state.served) return;
+    state.stack = [];
+    state.sides = { potato:0, juice:0 };
+    el.burger.querySelectorAll('.layer.pop').forEach(function(n){ n.parentNode.removeChild(n); });
+    el.topBun.classList.remove('show');
+    el.sides.innerHTML = '';
+    clearHint();
+    renderOrder();
+    updateTrayEmpty();
+    sfx('remove');
+  });
+
+  el.start.addEventListener('click', function(){
+    newGame();
+    buildPalette();
+    renderOrder();
+    renderDots();
+    renderCoin();
+    updateTrayEmpty();
+    el.hint.textContent = '';
+    el.hint.classList.remove('show');
+    el.serve.style.display = '';
+    el.next.style.display = 'none';
+    el.palette.classList.remove('locked');
+    el.reset.style.opacity = '';
+    el.reset.style.pointerEvents = '';
+    el.bubble.textContent = CUSTOMERS[0].line;
+    showScreen('play');
+    sfx('tap');
+    setTimeout(function(){ sfx('side'); }, 120);
+  });
+
+  el.again.addEventListener('click', function(){
+    newGame();
+    renderCoin();
+    renderDots();
+    renderOrder();
+    updateTrayEmpty();
+    el.serve.style.display = '';
+    el.next.style.display = 'none';
+    el.palette.classList.remove('locked');
+    el.reset.style.opacity = '';
+    el.reset.style.pointerEvents = '';
+    el.sides.innerHTML = '';
+    el.burger.querySelectorAll('.layer.pop').forEach(function(n){ n.parentNode.removeChild(n); });
+    el.topBun.classList.remove('show');
+    showScreen('play');
+    sfx('tap');
+  });
+
+  el.sound.addEventListener('click', function(){
+    soundOn = !soundOn;
+    el.sound.textContent = soundOn ? '🔊' : '🔇';
+    el.sound.setAttribute('aria-label', soundOn ? 'おとを けす' : 'おとを つける');
+    if(soundOn) sfx('coin');
+  });
+
+  /* 初回描画（タイトル時点の下地） */
+  buildPalette();
+  newGame();
+  renderCoin();
+  renderDots();
+  updateTrayEmpty();
+})();
+</script>
+</body>
+</html>
