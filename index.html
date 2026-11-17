@@ -409,6 +409,11 @@
   .side .semo{ font-size:34px; line-height:1.02; filter:drop-shadow(0 2px 1px rgba(140,90,30,.22)); }
   .side .slbl{ font-size:9px; color:#1d6b8c; letter-spacing:-.02em; white-space:nowrap; }
   .side.pop{ animation:pop .34s cubic-bezier(.2,1.5,.5,1); }
+  /* 3こ いじょう のせた ときは 小さめにして、おぼんから はみ出さないように */
+  .sides.many{ gap:3px; }
+  .sides.many .side{ padding:0 3px 1px; border-width:2px; border-radius:10px; }
+  .sides.many .semo{ font-size:22px; }
+  .sides.many .slbl{ display:none; }
 
   /* ---------- hint ---------- */
   .hint{
@@ -1464,7 +1469,8 @@
   }
 
   function updateTrayEmpty(){
-    var empty = S.stack.length === 0 && sideTotal() === 0;
+    /* サイドだけ おいても、ハンバーガーは ぐざいを のせるまで 出さない */
+    var empty = S.stack.length === 0;
     el.trayEmpty.classList.toggle('hide', !empty);
     el.burger.classList.toggle('is-empty', empty);
     el.tray.classList.toggle('has-stack', !empty);
@@ -1518,6 +1524,8 @@
 
   function renderSides(animKey){
     el.sides.innerHTML = '';
+    var shown = Object.keys(S.sides).filter(function(k){ return S.sides[k]; });
+    el.sides.classList.toggle('many', shown.length > 2);
     Object.keys(S.sides).forEach(function(k){
       if(!S.sides[k]) return;
       var s = document.createElement('span');
