@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#ffd166">
-<meta name="description" content="ハンバーガーやさん おしごとたいけん Ver.2">
+<meta name="description" content="ハンバーガーやさん おしごとたいけん Ver.3">
 <title>ハンバーガーやさん おしごとたいけん</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%20width='180'%20height='180'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%23ffd166'/%3E%3Cpath%20d='M9%2031c0-9%2010.3-15%2023-15s23%206%2023%2015z'%20fill='%23eeae4f'/%3E%3Crect%20x='9'%20y='33'%20width='46'%20height='6'%20rx='3'%20fill='%235cc756'/%3E%3Crect%20x='9'%20y='40'%20width='46'%20height='6'%20rx='3'%20fill='%23ffdc45'/%3E%3Crect%20x='9'%20y='47'%20width='46'%20height='5'%20rx='2.5'%20fill='%236a3d21'/%3E%3Crect%20x='11'%20y='53'%20width='42'%20height='5'%20rx='2.5'%20fill='%23e8a94a'/%3E%3C/svg%3E">
 <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%20width='180'%20height='180'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%23ffd166'/%3E%3Cpath%20d='M9%2031c0-9%2010.3-15%2023-15s23%206%2023%2015z'%20fill='%23eeae4f'/%3E%3Crect%20x='9'%20y='33'%20width='46'%20height='6'%20rx='3'%20fill='%235cc756'/%3E%3Crect%20x='9'%20y='40'%20width='46'%20height='6'%20rx='3'%20fill='%23ffdc45'/%3E%3Crect%20x='9'%20y='47'%20width='46'%20height='5'%20rx='2.5'%20fill='%236a3d21'/%3E%3Crect%20x='11'%20y='53'%20width='42'%20height='5'%20rx='2.5'%20fill='%23e8a94a'/%3E%3C/svg%3E">
@@ -90,27 +90,66 @@
   .layer{ flex:0 0 auto; position:relative; }
   .bun-bottom{
     width:168px; height:30px;
-    background:linear-gradient(180deg,#f5c881,#e3a852);
+    background:linear-gradient(180deg,var(--b1,#f5c881),var(--b2,#e3a852));
     border-radius:10px 10px 18px 18px;
     box-shadow:inset 0 -4px 0 rgba(150,90,20,.18);
   }
   .bun-bottom::after, .bun-top::after{
     content:""; position:absolute; inset:0; border-radius:inherit;
-    background-image:
-      radial-gradient(circle at 24% 45%, #fff6dc 2.3px, transparent 2.6px),
-      radial-gradient(circle at 48% 60%, #fff6dc 2.1px, transparent 2.4px),
-      radial-gradient(circle at 70% 38%, #fff6dc 2.2px, transparent 2.5px),
-      radial-gradient(circle at 86% 58%, #fff6dc 1.9px, transparent 2.2px);
+    background-image:var(--dots,none); background-repeat:no-repeat;
   }
   .bun-top{
     width:176px; height:36px;
-    background:linear-gradient(180deg,#f8cf8a,#ecb463);
+    background:linear-gradient(180deg,var(--b1,#f8cf8a),var(--b2,#ecb463));
     border-radius:90px 90px 12px 12px;
     box-shadow:inset 0 -4px 0 rgba(150,90,20,.14);
     opacity:0; transform:scale(.55) translateY(10px);
     transition:opacity .22s ease, transform .3s cubic-bezier(.2,1.6,.5,1);
   }
   .bun-top.show{ opacity:1; transform:none; }
+
+  /* ---------- パンの しゅるい（3しゅるい） ---------- */
+  .bun-normal{
+    --b1:#f8cf8a; --b2:#ecb463;
+    --dots:
+      radial-gradient(circle at 24% 45%, #fff6dc 2.2px, transparent 2.5px),
+      radial-gradient(circle at 48% 60%, #fff6dc 2px, transparent 2.3px),
+      radial-gradient(circle at 70% 38%, #fff6dc 2.1px, transparent 2.4px),
+      radial-gradient(circle at 86% 58%, #fff6dc 1.8px, transparent 2.1px);
+  }
+  .bun-goma{
+    --b1:#f7dcb2; --b2:#d9a158;
+    --dots:
+      radial-gradient(circle at 14% 40%, #5a3c1e 2.4px, transparent 2.7px),
+      radial-gradient(circle at 30% 62%, #5a3c1e 2.1px, transparent 2.4px),
+      radial-gradient(circle at 44% 34%, #5a3c1e 2.3px, transparent 2.6px),
+      radial-gradient(circle at 58% 60%, #5a3c1e 2px, transparent 2.3px),
+      radial-gradient(circle at 72% 38%, #5a3c1e 2.3px, transparent 2.6px),
+      radial-gradient(circle at 88% 62%, #5a3c1e 1.9px, transparent 2.2px);
+  }
+  .bun-pink{
+    --b1:#ffc9de; --b2:#f58bb4;
+    --dots:
+      radial-gradient(circle at 18% 40%, #fff 2px, transparent 2.3px),
+      radial-gradient(circle at 36% 62%, #fff 1.9px, transparent 2.2px),
+      radial-gradient(circle at 52% 36%, #fff 2px, transparent 2.3px),
+      radial-gradient(circle at 70% 60%, #fff 1.8px, transparent 2.1px),
+      radial-gradient(circle at 88% 40%, #fff 1.8px, transparent 2.1px);
+  }
+  /* パンの ミニ サンプル */
+  .bsw{
+    position:relative; display:inline-block; flex:0 0 auto;
+    width:30px; height:18px; border-radius:11px 11px 6px 6px;
+    background:linear-gradient(180deg,var(--b1,#f8cf8a),var(--b2,#ecb463));
+    box-shadow:inset 0 -2px 0 rgba(150,90,20,.16), 0 1px 0 rgba(255,255,255,.55) inset;
+    vertical-align:middle;
+  }
+  .bsw::after{
+    content:""; position:absolute; inset:0; border-radius:inherit;
+    background-image:var(--dots,none); background-repeat:no-repeat;
+  }
+  .bsw.tiny{ width:19px; height:12px; border-radius:7px 7px 4px 4px; }
+  .bsw.big{ width:44px; height:26px; border-radius:16px 16px 8px 8px; }
   .patty{
     width:160px; height:26px;
     background:linear-gradient(180deg,#8d5731,#6a3d21);
@@ -226,24 +265,83 @@
 
   /* ---------- customer + order slip ---------- */
   .customer{
-    flex:0 0 auto;
+    flex:0 0 auto; position:relative;
     display:flex; align-items:stretch; gap:7px;
     margin-top:7px;
   }
-  .avatar{
-    flex:0 0 auto; align-self:flex-start;
-    width:50px; height:50px; border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    font-size:30px; line-height:1;
-    background:#ffe1ec;
-    box-shadow:0 4px 0 rgba(200,140,160,.25), inset 0 0 0 3px #fff;
-    animation:bob 2.4s ease-in-out infinite;
+  /* おみせの まど（おきゃくさんが はいってくる ところ） */
+  .shopwin{
+    position:relative; flex:0 0 auto; align-self:flex-start;
+    width:74px; height:74px;
+    border-radius:14px 14px 9px 9px;
+    background:linear-gradient(180deg,#eaf8ff 0%,#fff8ea 62%);
+    border:3px solid #efe0c6;
+    box-shadow:0 4px 0 rgba(200,160,110,.22), inset 0 0 0 2px #fff;
+    overflow:hidden;
   }
-  @keyframes bob{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-4px) } }
+  .shopwin .floor{
+    position:absolute; left:0; right:0; bottom:0; height:14px;
+    background:repeating-linear-gradient(90deg,#ecd0a6 0 9px,#e0bf8e 9px 18px);
+    border-top:2px solid #d9b98e;
+  }
+  .shopwin .door{
+    position:absolute; left:0; top:0; bottom:14px; width:13px;
+    background:linear-gradient(90deg,#cfe8f6,#a9cfe6);
+    border-right:2px solid #8fb9d0;
+  }
+  .shopwin .bell{
+    position:absolute; left:2px; top:3px; font-size:11px; line-height:1; z-index:3;
+    transform-origin:50% 0; opacity:.9;
+  }
+  .shopwin .bell.ring{ animation:bellRing .45s ease 2; }
+  @keyframes bellRing{ 0%,100%{ transform:rotate(0) } 25%{ transform:rotate(-24deg) } 65%{ transform:rotate(20deg) } }
+  .avatar{
+    position:absolute; left:50%; bottom:10px; margin-left:-23px;
+    width:46px; height:46px; z-index:2;
+    display:flex; align-items:center; justify-content:center;
+    font-size:32px; line-height:1; background:transparent;
+    filter:drop-shadow(0 2px 1px rgba(140,90,40,.18));
+  }
+  .avatar.idle{ animation:bob 2.4s ease-in-out infinite; }
+  .avatar.enter{ animation:walkIn .8s cubic-bezier(.25,.9,.3,1) both; }
+  .avatar.leave{ animation:walkOut .62s ease-in both; }
   .avatar.happy{ animation:jump .5s ease 2; }
   .avatar.sad{ animation:sadShake .6s ease 1; }
-  @keyframes jump{ 0%,100%{ transform:translateY(0) scale(1) } 40%{ transform:translateY(-12px) scale(1.06) } }
+  @keyframes bob{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-4px) } }
+  @keyframes jump{ 0%,100%{ transform:translateY(0) scale(1) } 40%{ transform:translateY(-12px) scale(1.08) } }
   @keyframes sadShake{ 0%,100%{ transform:rotate(0) } 25%{ transform:rotate(-9deg) } 75%{ transform:rotate(9deg) } }
+  @keyframes walkIn{
+    0%{ transform:translateX(-70px); opacity:0; }
+    14%{ opacity:1; }
+    30%{ transform:translateX(-52px) translateY(-5px); }
+    50%{ transform:translateX(-34px) translateY(0); }
+    70%{ transform:translateX(-17px) translateY(-5px); }
+    100%{ transform:translateX(0) translateY(0); }
+  }
+  @keyframes walkOut{
+    0%{ transform:translateX(0); opacity:1; }
+    70%{ opacity:1; }
+    100%{ transform:translateX(-70px); opacity:0; }
+  }
+  /* おきゃくさんの ふきだし */
+  .v-bubble{
+    position:absolute; left:78px; top:-8px; max-width:calc(100% - 80px); z-index:7;
+    display:flex; align-items:center; gap:4px;
+    background:#fff; border:3px solid #ffd9a8; border-radius:14px;
+    padding:2px 9px; font-size:12.5px; line-height:1.3; color:#8a4a12;
+    box-shadow:0 3px 0 rgba(220,170,90,.22);
+    opacity:0; transform:translateY(7px) scale(.92); pointer-events:none;
+    transition:opacity .22s ease, transform .25s cubic-bezier(.2,1.5,.5,1);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .v-bubble::after{
+    content:""; position:absolute; left:-8px; top:50%; margin-top:-6px;
+    width:11px; height:11px; background:#fff;
+    border-left:3px solid #ffd9a8; border-bottom:3px solid #ffd9a8;
+    transform:rotate(45deg);
+  }
+  .v-bubble.show{ opacity:1; transform:none; }
+  .v-bubble .vico{ font-size:14px; }
 
   .slip{
     flex:1 1 auto; min-width:0;
@@ -311,7 +409,11 @@
   .band.egg{ background:linear-gradient(180deg,#fffdf0,#f2e3bd); color:#7a5a1a; }
   .band.ebi{ background:linear-gradient(180deg,#f6cb8d,#dc9a4a); color:#5c3a12; }
   .band.chicken{ background:linear-gradient(180deg,#d99a54,#b06f2f); color:#fff6e6; }
-  .band.bun{ background:linear-gradient(180deg,#f8cf8a,#ecb463); color:#6b4413; }
+  .band.bun{ background:linear-gradient(180deg,#f8cf8a,#ecb463); color:#6b4413; font-size:12.5px; }
+  .band.bun .tick{ display:none; }
+  .band.bun .bi{ font-size:13px; display:inline-flex; align-items:center; }
+  .band.bun-goma{ background:linear-gradient(180deg,#f7dcb2,#d9a158); color:#6b4413; }
+  .band.bun-pink{ background:linear-gradient(180deg,#ffc9de,#f58bb4); color:#7a2447; }
   .band.bunrow-top{ border-radius:16px 16px 7px 7px; }
   .band.bunrow-bottom{ border-radius:7px 7px 16px 16px; }
   /* ---------- サイド（伝票の右の せんようわく） ---------- */
@@ -358,7 +460,7 @@
   /* ---------- tray ---------- */
   .tray{
     position:relative; flex:1 1 auto; min-height:100px;
-    max-height:clamp(170px, 40vh, 340px);
+    max-height:clamp(160px, 30vh, 270px);
     margin-top:7px;
     border-radius:22px;
     background:linear-gradient(180deg,#ffffff,#fff9ef);
@@ -386,11 +488,11 @@
   .tray.has-stack .tray-guide{ opacity:.3; }
   .tray-empty{
     position:absolute; inset:0; display:flex; flex-direction:column;
-    align-items:center; justify-content:center; gap:2px;
-    color:#d8c3a4; font-size:12px; text-align:center; padding:0 16px;
+    align-items:center; justify-content:flex-start; gap:0;
+    color:#d8c3a4; font-size:12px; text-align:center; padding:7px 16px 0;
     pointer-events:none; z-index:3;
   }
-  .tray-empty .big{ font-size:28px; }
+  .tray-empty .big{ display:none; }
   .tray-empty .txt{ font-size:11.5px; color:#cdb797; line-height:1.45; }
   .tray-empty.hide{ display:none; }
   .tray .burger{ z-index:2; }
@@ -680,6 +782,104 @@
     100%{ transform:translateY(-70px) scale(1); opacity:0; }
   }
 
+  /* ---------- ハート（3ミスモード） ---------- */
+  .hearts{
+    display:none; align-items:center; gap:1px; flex:0 0 auto;
+    background:#fff; border:3px solid #ffd0d8; border-radius:999px;
+    padding:2px 7px; font-size:15px; line-height:1.1;
+    box-shadow:0 3px 0 rgba(230,150,170,.2);
+  }
+  .hearts.show{ display:inline-flex; }
+  .hearts i{ font-style:normal; transition:opacity .2s, transform .2s; }
+  .hearts i.off{ opacity:.2; filter:grayscale(1); transform:scale(.85); }
+  .hearts.lost{ animation:heartShake .45s ease; }
+  @keyframes heartShake{ 0%,100%{ transform:translateX(0) } 25%{ transform:translateX(-4px) } 75%{ transform:translateX(4px) } }
+
+  /* ---------- パンえらび ---------- */
+  .bun-pal{ display:flex; gap:6px; flex:0 0 auto; margin-top:4px; padding-bottom:1px; }
+  .bun-btn{
+    flex:1 1 0; min-width:0; min-height:44px;
+    display:flex; align-items:center; justify-content:center; gap:5px;
+    border:3px solid #f3e2c4; border-radius:14px; background:#fff;
+    font-family:inherit; font-weight:900; font-size:11.5px; color:#8a5a24;
+    box-shadow:0 3px 0 #efdcbd; cursor:pointer; touch-action:manipulation;
+    transition:transform .07s, box-shadow .07s, border-color .15s, background .15s;
+    padding:0 3px; white-space:nowrap; overflow:hidden;
+  }
+  .bun-btn:active{ transform:translateY(3px); box-shadow:0 1px 0 #efdcbd; }
+  .bun-btn.on{ border-color:#ff9f43; background:#fff6e8; box-shadow:0 3px 0 #ffc07a; }
+  .bun-btn span{ overflow:hidden; text-overflow:ellipsis; }
+  .bun-pal.locked{ opacity:.42; pointer-events:none; }
+
+  /* ---------- タイトル：あそぶ やく ---------- */
+  .role-tabs{
+    display:flex; gap:5px; width:100%; margin-top:9px; padding:4px;
+    background:#fff; border:3px solid #f5e6cc; border-radius:16px;
+    box-shadow:0 3px 0 rgba(220,190,150,.22);
+  }
+  .role-tab{
+    flex:1 1 0; min-width:0; min-height:38px; border:none; border-radius:12px;
+    background:transparent; font-family:inherit; font-weight:900; font-size:12.5px;
+    color:#a3855f; cursor:pointer; touch-action:manipulation; line-height:1.15; padding:3px 2px;
+  }
+  .role-tab.on{ background:linear-gradient(180deg,#ffe2b0,#ffc979); color:#8a4a12; box-shadow:0 2px 0 #f0b45f; }
+  .role-pane{ display:none; width:100%; }
+  .role-pane.on{ display:block; }
+  .mode-btn.lives{ background:linear-gradient(180deg,#ffeef2,#ffd4de); box-shadow:0 5px 0 #f0a9bb, 0 9px 16px rgba(220,120,150,.18); }
+  .mode-btn.lives .m-t{ color:#9c2f52; }
+  .mode-btn.lives .m-s{ color:#c07d94; }
+  .mode-btn.cust-start{ width:100%; background:linear-gradient(180deg,#eef2ff,#d6e2ff); box-shadow:0 5px 0 #a9bdf0, 0 9px 16px rgba(120,140,220,.18); }
+  .mode-btn.cust-start .m-t{ color:#2f3f7a; }
+  .mode-btn.cust-start .m-s{ color:#7d89b8; }
+  .cust-note{ margin:7px 0 0; font-size:10.5px; color:#a8a29a; line-height:1.5; letter-spacing:.01em; }
+
+  /* ---------- おきゃくさんモード ---------- */
+  #screen-cust .btn.primary{ flex:0 0 auto; min-height:54px; width:100%; }
+  #screen-cust .tray{ max-height:clamp(150px, 34vh, 300px); }
+  .chef-scene{
+    position:relative; flex:0 0 auto; height:80px; margin-top:7px;
+    border-radius:16px; overflow:hidden;
+    background:linear-gradient(180deg,#eaf8ff 0%,#fff8ea 70%);
+    border:3px solid #efe0c6; box-shadow:0 3px 0 rgba(200,160,110,.2);
+  }
+  .chef-scene .floor{
+    position:absolute; left:0; right:0; bottom:0; height:22px;
+    background:repeating-linear-gradient(90deg,#ecd0a6 0 10px,#e0bf8e 10px 20px);
+    border-top:2px solid #d9b98e;
+  }
+  .chef-scene .shelf{
+    position:absolute; right:10px; bottom:22px; font-size:14px; letter-spacing:2px;
+    opacity:.55;
+  }
+  .chef-emoji{
+    position:absolute; right:16px; bottom:12px; font-size:40px; line-height:1; z-index:2;
+    filter:drop-shadow(0 2px 1px rgba(140,90,40,.2));
+  }
+  .chef-emoji.busy{ animation:chefBob .3s ease-in-out infinite; }
+  @keyframes chefBob{ 0%,100%{ transform:translateY(0) rotate(-3deg) } 50%{ transform:translateY(-4px) rotate(3deg) } }
+  .chef-bubble{
+    position:absolute; left:8px; top:7px; z-index:3; max-width:64%;
+    background:#fff; border:3px solid #ffd9a8; border-radius:12px;
+    padding:2px 9px; font-size:12px; line-height:1.3; color:#8a4a12;
+    box-shadow:0 2px 0 rgba(220,170,90,.2);
+  }
+  .chef-bubble::after{
+    content:""; position:absolute; right:-7px; bottom:8px;
+    width:10px; height:10px; background:#fff;
+    border-right:3px solid #ffd9a8; border-bottom:3px solid #ffd9a8;
+    transform:rotate(-45deg);
+  }
+  .chef-bubble.pop{ animation:comboPop .35s ease; }
+  .stamp-row{ display:flex; align-items:center; gap:1px; flex:0 0 auto; font-size:14px; line-height:1; }
+  .stamp-row i{ font-style:normal; }
+  .stamp-row i.off{ opacity:.25; }
+  .burger.eat{ animation:mogu .32s ease-in-out 4; }
+  @keyframes mogu{
+    0%,100%{ transform:translateX(var(--tx,0px)) scale(var(--bs,1.12)); }
+    45%{ transform:translateX(var(--tx,0px)) scale(calc(var(--bs,1.12) * 1.07)) scaleY(.9); }
+  }
+  .cush{ font-size:10px; color:#c8ab84; text-align:center; margin-top:2px; letter-spacing:.02em; }
+
   @media (prefers-reduced-motion: reduce){
     *{ animation-duration:.001s !important; animation-iteration-count:1 !important; transition-duration:.001s !important; }
   }
@@ -701,13 +901,29 @@
     .ing .ico{ font-size:19px; }
     .btn.primary{ min-height:50px; font-size:17px; }
     .btn.ghost{ min-height:50px; }
+    .bun-btn{ min-height:40px; font-size:11px; }
+    .role-tab{ min-height:34px; font-size:12px; }
+    .chef-scene{ height:72px; }
+  }
+  @media (max-height:700px){
+    .tray{ min-height:86px; max-height:140px; }
+    .ing{ min-height:42px; }
+    .ing .ico{ font-size:18px; }
+    .bun-btn{ min-height:38px; }
+    .palette-title{ margin:5px 0 2px 4px; }
+    .hint{ min-height:22px; font-size:11px; }
+    .btn.primary{ min-height:48px; font-size:16.5px; }
+    .btn.ghost{ min-height:48px; }
+    .chef-scene{ height:70px; }
   }
   @media (max-height:640px){
     .slip.dense .band{ height:19px; font-size:11px; }
     .band{ height:22px; font-size:12px; }
     .band .bi{ font-size:14px; }
     .snum{ width:20px; font-size:11px; }
-    .avatar{ width:42px; height:42px; font-size:25px; }
+    .shopwin{ width:64px; height:64px; }
+    .avatar{ width:40px; height:40px; margin-left:-20px; font-size:28px; bottom:9px; }
+    .v-bubble{ left:68px; max-width:calc(100% - 70px); font-size:11.5px; }
     .ing{ min-height:42px; }
     .ing .lbl{ font-size:9px; }
     .ing .ico{ font-size:17px; }
@@ -730,30 +946,67 @@
         <div class="title-art">
           <span class="spark s1">✨</span><span class="spark s2">⭐</span><span class="spark s3">✨</span>
           <div class="burger">
-            <div class="layer bun-bottom"></div>
+            <div class="layer bun-bottom bun-normal"></div>
             <div class="layer lettuce"></div>
             <div class="layer tomato"></div>
             <div class="layer cheese"></div>
             <div class="layer patty"></div>
-            <div class="layer bun-top show"></div>
+            <div class="layer bun-top bun-normal show"></div>
           </div>
           <div class="title-shadow"></div>
         </div>
         <h1 class="title-head">ハンバーガーやさん<br>おしごとたいけん</h1>
 
-        <div class="stat-row">
-          <div class="stat">
-            <span class="sl">コイン</span>
-            <span class="sv"><span class="e">🪙</span><b id="tCoins">0</b></span>
-          </div>
-          <div class="stat">
-            <span class="sl">ハイスコア（60びょう）</span>
-            <span class="sv"><span class="e">🏅</span><b id="tBest">0</b></span>
+        <div class="role-tabs" role="tablist" aria-label="あそぶ やく">
+          <button class="role-tab on" id="roleStaff" role="tab" aria-selected="true">🍔 てんいんさん</button>
+          <button class="role-tab" id="roleCust" role="tab" aria-selected="false">🙋 おきゃくさん</button>
+        </div>
+
+        <div class="role-pane on" id="paneStaff">
+          <div class="modes">
+            <button class="mode-btn chill" id="modeChill">
+              <span class="m-ico">🌿</span>
+              <span class="m-body">
+                <span class="m-t">のんびり おしごと</span>
+                <span class="m-s">じかん せいげんなし・ゲームオーバーなし</span>
+              </span>
+            </button>
+            <button class="mode-btn time" id="mode60">
+              <span class="m-ico">⏱️</span>
+              <span class="m-body">
+                <span class="m-t">いそいで！60びょう</span>
+                <span class="m-s">60びょうで なんこ とどけられる？</span>
+              </span>
+            </button>
+            <button class="mode-btn lives" id="modeLives">
+              <span class="m-ico">❤️</span>
+              <span class="m-body">
+                <span class="m-t">3ミスで へいてん！</span>
+                <span class="m-s">ハート3つ・スリルを あじわいたい ひとに</span>
+              </span>
+            </button>
           </div>
         </div>
+
+        <div class="role-pane" id="paneCust">
+          <div class="modes">
+            <button class="mode-btn cust-start" id="custStart">
+              <span class="m-ico">🙋</span>
+              <span class="m-body">
+                <span class="m-t">おきゃくさんで あそぶ</span>
+                <span class="m-s">すきな バーガーを ちゅうもん しよう</span>
+              </span>
+            </button>
+            <p class="cust-note">すきな パンと ぐざいを えらんで<br>「これで ちゅうもん！」→ できたら「たべる！」</p>
+          </div>
+        </div>
+
         <div class="mini-row">
-          <span class="mini">ごうけい <b id="tLife">0</b> コイン</span>
-          <span class="mini">🌿 さいこう <b id="tBestChill">0</b> にん</span>
+          <span class="mini">🪙 <b id="tCoins">0</b></span>
+          <span class="mini">🏅 60びょう <b id="tBest">0</b></span>
+          <span class="mini">🌿 <b id="tBestChill">0</b>にん</span>
+          <span class="mini">❤️ <b id="tBestLives">0</b>にん</span>
+          <span class="mini">ごうけい <b id="tLife">0</b></span>
           <span class="mini" id="tUnlock">🛍️ 0/5</span>
         </div>
 
@@ -766,28 +1019,11 @@
           <div class="bar"><i id="tRankBar"></i></div>
         </div>
 
-        <div class="modes">
-          <button class="mode-btn time" id="mode60">
-            <span class="m-ico">⏱️</span>
-            <span class="m-body">
-              <span class="m-t">いそいで！60しょうぶ</span>
-              <span class="m-s">60びょうで なんこ とどけられる？</span>
-            </span>
-          </button>
-          <button class="mode-btn chill" id="modeChill">
-            <span class="m-ico">🌿</span>
-            <span class="m-body">
-              <span class="m-t">のんびり おしごと</span>
-              <span class="m-s">じかん せいげんなしで ゆっくり</span>
-            </span>
-          </button>
-        </div>
-
         <div class="title-tools">
           <button class="tool-btn" id="shopBtn">🛍️ おみせ</button>
           <button class="tool-btn snd" id="soundBtnTitle" aria-label="おとの せってい">🔊</button>
         </div>
-        <p class="title-foot">ぐざいを うえから じゅんばんに のせてね</p>
+        <p class="title-foot">パン・ぐざい・サイドを えらんで つくってね</p>
       </div>
     </section>
 
@@ -798,11 +1034,18 @@
         <div class="combo-badge" id="comboBadge"><span>🔥</span><b id="comboNum">2</b><i id="comboMult">×1</i></div>
         <div class="timer-pill" id="timerPill"><span>⏱</span><b id="timeNum">60</b></div>
         <div class="served-pill" id="servedPill"><span>🍔</span><b id="servedNum">0</b></div>
+        <div class="hearts" id="hearts"><i>❤️</i><i>❤️</i><i>❤️</i></div>
         <button class="icon-btn end" id="endBtn" aria-label="おしごとを おわる">おわる</button>
       </div>
 
-      <div class="customer">
-        <div class="avatar" id="avatar" aria-hidden="true">🐰</div>
+      <div class="customer" id="customerRow">
+        <div class="shopwin" aria-hidden="true">
+          <span class="door"></span>
+          <span class="bell" id="winBell">🔔</span>
+          <span class="floor"></span>
+          <div class="avatar idle" id="avatar">🐰</div>
+        </div>
+        <div class="v-bubble" id="vBubble"><span class="vico">💬</span><span id="vBubbleText">これ ください！</span></div>
         <div class="slip" id="slip">
           <div class="slip-head">
             <span class="slip-title">ちゅうもん</span>
@@ -827,12 +1070,11 @@
         <span class="tray-tag">おぼん</span>
         <div class="tray-guide" aria-hidden="true"></div>
         <div class="tray-empty" id="trayEmpty">
-          <span class="big">🍔</span>
-          <span class="txt">ここに ぐざいを<br>のせてね</span>
+          <span class="txt">ぐざいを のせてね</span>
         </div>
         <div class="burger" id="burger">
-          <div class="layer bun-bottom"></div>
-          <div class="layer bun-top" id="topBun"></div>
+          <div class="layer bun-bottom bun-normal"></div>
+          <div class="layer bun-top bun-normal" id="topBun"></div>
         </div>
         <div class="sides" id="sides"></div>
       </div>
@@ -844,9 +1086,50 @@
         <button class="btn primary" id="serveBtn">おまたせしました！</button>
       </div>
 
+      <div class="palette-title">🍞 パンを えらんでね</div>
+      <div class="bun-pal" id="bunPal"></div>
       <div class="palette-title">ぐざいを おしてね</div>
       <div class="palette" id="palette"></div>
       <div class="palette side-pal" id="sidePalette"></div>
+    </section>
+
+    <!-- ===== おきゃくさん モード ===== -->
+    <section class="screen" id="screen-cust">
+      <div class="hud">
+        <div class="coin-pill"><span class="c">🪙</span><b id="cCoin">0</b></div>
+        <div class="stamp-row" id="stampRow"></div>
+        <button class="icon-btn end" id="cEnd" aria-label="おわる">おわる</button>
+      </div>
+
+      <div class="chef-scene">
+        <span class="floor"></span>
+        <span class="shelf">🍔 🍟</span>
+        <div class="chef-bubble" id="chefBubble">なにを つくる？</div>
+        <div class="chef-emoji" id="chefEmoji">🐰</div>
+      </div>
+
+      <div class="tray" id="cTray">
+        <span class="tray-tag">おぼん</span>
+        <div class="tray-guide" aria-hidden="true"></div>
+        <div class="tray-empty" id="cEmpty">
+          <span class="big">🍔</span>
+          <span class="txt">パンと ぐざいを<br>えらんでね</span>
+        </div>
+        <div class="burger" id="cBurger">
+          <div class="layer bun-bottom bun-normal"></div>
+          <div class="layer bun-top bun-normal"></div>
+        </div>
+        <div class="sides" id="cSides"></div>
+      </div>
+
+      <button class="btn primary" id="cOrderBtn" style="margin-top:7px;">これで ちゅうもん！</button>
+      <div class="hint" id="cHint" role="status" aria-live="polite"></div>
+
+      <div class="palette-title">🍞 パンを えらぶ</div>
+      <div class="bun-pal" id="cBunPal"></div>
+      <div class="palette-title">ぐざいを うえから えらぶ（4こまで）</div>
+      <div class="palette" id="cPalette"></div>
+      <div class="palette side-pal" id="cSidePal"></div>
     </section>
 
     <!-- ===== リザルト ===== -->
@@ -939,6 +1222,17 @@
   };
   var BASE_ING = ['patty','cheese','lettuce','tomato','bacon'];
 
+  /* パン（バンズ）は 3しゅるい。はじめから ぜんぶ つかえる */
+  var BUNS = {
+    normal:{ label:'ふつうパン',  cls:'bun-normal' },
+    goma:  { label:'ゴマパン',    cls:'bun-goma' },
+    pink:  { label:'ピンクパン',  cls:'bun-pink' }
+  };
+  var BUN_KEYS = ['normal','goma','pink'];
+  function bunSwatch(k, size){
+    return '<span class="bsw ' + BUNS[k].cls + (size ? ' ' + size : '') + '"></span>';
+  }
+
   var SIDE = {
     potato:{ label:'ポテト',   ico:'🍟' },
     juice: { label:'ジュース', ico:'🥤' },
@@ -997,7 +1291,7 @@
      セーブ（localStorage）
      ========================================================= */
   var KEY = 'oshigoto-burger-v2';
-  var save = { coins:0, lifetime:0, best60:0, bestChill:0, unlocked:{}, sound:true, plays:0 };
+  var save = { coins:0, lifetime:0, best60:0, bestChill:0, bestLives:0, unlocked:{}, sound:true, plays:0 };
 
   function loadSave(){
     try{
@@ -1008,6 +1302,7 @@
       if(typeof o.lifetime === 'number' && o.lifetime >= 0) save.lifetime = Math.floor(o.lifetime);
       if(typeof o.best60 === 'number' && o.best60 >= 0) save.best60 = Math.floor(o.best60);
       if(typeof o.bestChill === 'number' && o.bestChill >= 0) save.bestChill = Math.floor(o.bestChill);
+      if(typeof o.bestLives === 'number' && o.bestLives >= 0) save.bestLives = Math.floor(o.bestLives);
       if(typeof o.plays === 'number' && o.plays >= 0) save.plays = Math.floor(o.plays);
       if(typeof o.sound === 'boolean') save.sound = o.sound;
       if(o.unlocked && typeof o.unlocked === 'object'){
@@ -1070,6 +1365,20 @@
   function sfx(name){
     if(!soundOn) return;
     if(name === 'tap'){ tone(680,0,0.09,'triangle',0.12); }
+    else if(name === 'bell'){
+      /* チリン♪ 店の ドアベル */
+      tone(1568, 0,    0.32, 'sine', 0.10);
+      tone(2093, 0.05, 0.30, 'sine', 0.075);
+      tone(2637, 0.12, 0.26, 'sine', 0.045);
+      tone(1319, 0.22, 0.5,  'sine', 0.05);
+    }
+    else if(name === 'ton'){ tone(430,0,0.07,'square',0.07); tone(620,0.03,0.07,'square',0.05); }
+    else if(name === 'mogu'){
+      [0,0.15,0.3,0.45].forEach(function(t,i){ tone(i%2?300:240, t, 0.1, 'square', 0.055); });
+    }
+    else if(name === 'yum'){
+      [784,988,1175,1568].forEach(function(f,i){ tone(f, i*0.08, 0.22,'triangle',0.13); });
+    }
     else if(name === 'side'){ tone(520,0,0.1,'sine',0.14); tone(780,0.05,0.1,'sine',0.1); }
     else if(name === 'remove'){ tone(420,0,0.1,'sine',0.1); }
     else if(name === 'no'){ tone(400,0,0.12,'sine',0.1); tone(320,0.1,0.16,'sine',0.1); }
@@ -1096,22 +1405,29 @@
      状態
      ========================================================= */
   var S = null;
+  var C = null;
   var advTimer = null;
 
   var el = {
-    screens:{ title:$('screen-title'), play:$('screen-play'), result:$('screen-result') },
-    tCoins:$('tCoins'), tBest:$('tBest'), tBestChill:$('tBestChill'), tLife:$('tLife'),
+    screens:{ title:$('screen-title'), play:$('screen-play'), cust:$('screen-cust'), result:$('screen-result') },
+    tCoins:$('tCoins'), tBest:$('tBest'), tBestChill:$('tBestChill'), tBestLives:$('tBestLives'), tLife:$('tLife'),
     tUnlock:$('tUnlock'), tRankIco:$('tRankIco'), tRank:$('tRank'), tRankNext:$('tRankNext'), tRankBar:$('tRankBar'),
-    mode60:$('mode60'), modeChill:$('modeChill'), shopBtn:$('shopBtn'), soundTitle:$('soundBtnTitle'),
+    mode60:$('mode60'), modeChill:$('modeChill'), modeLives:$('modeLives'),
+    roleStaff:$('roleStaff'), roleCust:$('roleCust'), paneStaff:$('paneStaff'), paneCust:$('paneCust'), custStart:$('custStart'),
+    shopBtn:$('shopBtn'), soundTitle:$('soundBtnTitle'),
     coinNum:$('coinNum'), comboBadge:$('comboBadge'), comboNum:$('comboNum'), comboMult:$('comboMult'),
     timerPill:$('timerPill'), timeNum:$('timeNum'), servedPill:$('servedPill'), servedNum:$('servedNum'),
-    endBtn:$('endBtn'),
+    hearts:$('hearts'), endBtn:$('endBtn'),
     avatar:$('avatar'), who:$('who'), slip:$('slip'), waitbar:$('waitbar'), waitfill:$('waitfill'),
+    winBell:$('winBell'), vBubble:$('vBubble'), vBubbleText:$('vBubbleText'),
     slipStack:$('slipStack'), slipCap:$('slipCap'), thanksMsg:$('thanksMsg'),
     sidePanel:$('sidePanel'), sideList:$('sideList'),
     tray:$('tray'), trayEmpty:$('trayEmpty'), burger:$('burger'), topBun:$('topBun'), sides:$('sides'),
-    hint:$('hint'), palette:$('palette'), sidePalette:$('sidePalette'),
+    hint:$('hint'), palette:$('palette'), sidePalette:$('sidePalette'), bunPal:$('bunPal'),
     reset:$('resetBtn'), serve:$('serveBtn'),
+    cCoin:$('cCoin'), stampRow:$('stampRow'), chefBubble:$('chefBubble'), chefEmoji:$('chefEmoji'),
+    cTray:$('cTray'), cEmpty:$('cEmpty'), cBurger:$('cBurger'), cSides:$('cSides'),
+    cOrderBtn:$('cOrderBtn'), cHint:$('cHint'), cBunPal:$('cBunPal'), cPalette:$('cPalette'), cSidePal:$('cSidePal'), cEnd:$('cEnd'),
     resEmoji:$('resEmoji'), resTitle:$('resTitle'), totalCoin:$('totalCoin'), resSub:$('resSub'),
     bestLine:$('bestLine'), rankup:$('rankup'), ulName:$('ulName'), ulBar:$('ulBar'), ulText:$('ulText'),
     again:$('againBtn'), resShop:$('resShopBtn'), resTitleBtn:$('resTitleBtn'),
@@ -1135,6 +1451,7 @@
     el.tCoins.textContent = save.coins;
     el.tBest.textContent = save.best60;
     el.tBestChill.textContent = save.bestChill;
+    el.tBestLives.textContent = save.bestLives;
     el.tLife.textContent = save.lifetime;
 
     var owned = SHOP.filter(function(it){ return save.unlocked[it.id]; }).length;
@@ -1153,6 +1470,18 @@
       el.tRankNext.textContent = 'さいこうランク！';
     }
     el.soundTitle.textContent = soundOn ? '🔊' : '🔇';
+  }
+
+  /* タイトルの やく（てんいんさん／おきゃくさん）切りかえ */
+  function setRole(role){
+    var staff = role !== 'cust';
+    el.roleStaff.classList.toggle('on', staff);
+    el.roleCust.classList.toggle('on', !staff);
+    el.roleStaff.setAttribute('aria-selected', staff ? 'true' : 'false');
+    el.roleCust.setAttribute('aria-selected', staff ? 'false' : 'true');
+    el.paneStaff.classList.toggle('on', staff);
+    el.paneCust.classList.toggle('on', !staff);
+    sfx('tap');
   }
 
   /* =========================================================
@@ -1222,9 +1551,12 @@
   function startRun(mode){
     if(advTimer) clearTimeout(advTimer);
     advTimer = null;
+    C = null;
     S = {
       mode: mode,
       mode60: mode === '60',
+      lives: mode === 'lives',
+      hearts: 3,
       level: 0,
       coins: 0,
       combo: 0,
@@ -1234,6 +1566,7 @@
       mistakes: 0,
       stack: [],
       sides: {},
+      bun: 'normal',
       order: null,
       cust: null,
       timeLeft: 60,
@@ -1246,17 +1579,35 @@
       lastCust: -1
     };
     buildPalette();
+    renderBunPalette();
     el.slip.classList.remove('thanks');
     el.serve.textContent = 'おまたせしました！';
     el.timerPill.classList.toggle('show', S.mode60);
     el.servedPill.classList.toggle('show', !S.mode60);
     el.waitbar.classList.toggle('show', S.mode60);
+    el.hearts.classList.toggle('show', S.lives);
+    updateHearts();
     el.comboBadge.classList.remove('show');
     el.timerPill.classList.remove('low');
+    el.vBubble.classList.remove('show');
     showScreen('play');
     updateHud();
     nextOrder();
     if(S.mode60) startClock();
+  }
+
+  function updateHearts(hurt){
+    if(!el.hearts) return;
+    var n = S ? S.hearts : 0;
+    var ics = el.hearts.querySelectorAll('i');
+    for(var i=0;i<ics.length;i++){
+      ics[i].classList.toggle('off', i >= n);
+    }
+    if(hurt){
+      el.hearts.classList.remove('lost');
+      void el.hearts.offsetWidth;
+      el.hearts.classList.add('lost');
+    }
   }
 
   function buildPalette(){
@@ -1277,6 +1628,36 @@
     el.sidePalette.innerHTML = sh;
     el.palette.classList.remove('locked');
     el.sidePalette.classList.remove('locked');
+  }
+
+  function renderBunPalette(){
+    var h = '';
+    BUN_KEYS.forEach(function(k){
+      h += '<button class="bun-btn' + (S && S.bun === k ? ' on' : '') + '" data-bun="' + k + '">' +
+             bunSwatch(k) + '<span>' + BUNS[k].label + '</span></button>';
+    });
+    el.bunPal.innerHTML = h;
+  }
+
+  /* おぼんの 上下のパンを えらんだ ものに かえる */
+  function applyBunToTray(key){
+    var b = el.burger.querySelector('.bun-bottom');
+    var t = el.burger.querySelector('.bun-top');
+    [b, t].forEach(function(n){
+      if(!n) return;
+      BUN_KEYS.forEach(function(x){ n.classList.remove(BUNS[x].cls); });
+      n.classList.add(BUNS[key].cls);
+    });
+  }
+
+  function chooseBun(key, silent){
+    if(!S || !S.running || S.servedFlag) return;
+    if(S.bun === key){ if(!silent) sfx('tap'); return; }
+    S.bun = key;
+    applyBunToTray(key);
+    renderBunPalette();
+    markSlip();
+    if(!silent) sfx('side');
   }
 
   /* =========================================================
@@ -1334,7 +1715,7 @@
       sides[k2] = 1;
     }
 
-    return { want:seq, sides:sides };
+    return { want:seq, sides:sides, bun:(level < 1 ? 'normal' : pick(BUN_KEYS)) };
   }
 
   function nextOrder(){
@@ -1347,6 +1728,7 @@
     S.order = makeOrder(S.level);
     S.stack = [];
     S.sides = {};
+    S.bun = 'normal';
     S.mistakes = 0;
     S.servedFlag = false;
 
@@ -1371,10 +1753,48 @@
     renderTrayFull();
     renderSides();
     renderSideButtons();
+    renderBunPalette();
     updateWait();
     updateHud();
     clearHint();
     markSlip();
+    customerEnter();
+  }
+
+  /* おきゃくさんが ドアから トコトコ はいってくる */
+  var bubbleTimer = null;
+  function say(text, ms){
+    el.vBubbleText.textContent = text;
+    el.vBubble.classList.remove('show');
+    void el.vBubble.offsetWidth;
+    el.vBubble.classList.add('show');
+    if(bubbleTimer) clearTimeout(bubbleTimer);
+    bubbleTimer = setTimeout(function(){
+      el.vBubble.classList.remove('show');
+      bubbleTimer = null;
+    }, ms || 2500);
+  }
+  function customerEnter(){
+    if(!S || !S.cust) return;
+    el.avatar.textContent = S.cust.emoji;
+    el.avatar.className = 'avatar enter';
+    el.winBell.classList.remove('ring');
+    void el.winBell.offsetWidth;
+    el.winBell.classList.add('ring');
+    sfx('bell');
+    setTimeout(function(){
+      if(!S || !S.running) return;
+      el.avatar.className = 'avatar idle';
+    }, 820);
+    setTimeout(function(){
+      if(!S || !S.running || S.servedFlag) return;
+      var ics = S.order.want.map(function(k){ return ING[k].ico; }).join('');
+      var sics = Object.keys(S.order.sides).map(function(k){ return SIDE[k].ico; }).join('');
+      say('これ ください！ ' + ics + sics, 2600);
+    }, 640);
+  }
+  function customerLeave(){
+    el.avatar.className = 'avatar leave';
   }
 
   function sideCount(){
@@ -1408,12 +1828,13 @@
     /* 伝票は うえから ①→②→③ の じゅんばん（おぼんの みためと そろえる） */
     var rows = '';
     el.slip.classList.toggle('dense', o.want.length >= 5);
-    rows += srow('🍞', 'バン（うえ）', 'bun bunrow-top', 'うえ', -1, true);
+    var bunName = BUNS[o.bun].label, bunCls = BUNS[o.bun].cls;
+    rows += srow(bunSwatch(o.bun,'tiny'), bunName, 'bun bunrow-top ' + bunCls, 'うえ', -1, true);
     for(var i = 0; i < o.want.length; i++){
       var k = o.want[i], d = ING[k];
       rows += srow(d.ico, d.label, k, CIRCLED[i] || (i+1), i, false);
     }
-    rows += srow('🍞', 'バン（した）', 'bun bunrow-bottom', 'した', -1, true);
+    rows += srow(bunSwatch(o.bun,'tiny'), bunName, 'bun bunrow-bottom ' + bunCls, 'した', -1, true);
     el.slipStack.innerHTML = rows;
 
     /* サイドは 右の せんようわくに 大きく */
@@ -1438,6 +1859,9 @@
 
   function markSlip(){
     if(!S || !S.order) return;
+    var bunOk = S.bun === S.order.bun;
+    var bunBands = el.slipStack.querySelectorAll('.band.bun');
+    for(var b=0;b<bunBands.length;b++){ bunBands[b].classList.toggle('ok', bunOk); }
     var rows = el.slipStack.querySelectorAll('.srow[data-pos]');
     var showCur = !S.mode60 || S.level < 3;
     for(var i=0;i<rows.length;i++){
@@ -1461,7 +1885,9 @@
   }
 
   function renderTrayFull(){
-    el.burger.innerHTML = '<div class="layer bun-bottom"></div><div class="layer bun-top" id="topBun"></div>';
+    var cls = BUNS[S.bun].cls;
+    el.burger.innerHTML = '<div class="layer bun-bottom ' + cls + '"></div>' +
+                          '<div class="layer bun-top ' + cls + '" id="topBun"></div>';
     el.topBun = $('topBun');
     el.burger.style.setProperty('--bs', trayScale(0));
     el.sides.innerHTML = '';
@@ -1469,10 +1895,11 @@
   }
 
   function updateTrayEmpty(){
-    /* サイドだけ おいても、ハンバーガーは ぐざいを のせるまで 出さない */
+    /* サイドだけ おいても、ハンバーガーは ぐざいを のせるまで 上パンは 出さない。
+       下の パンは えらんだ ものが すぐ 見えるように いつも 出しておく */
     var empty = S.stack.length === 0;
     el.trayEmpty.classList.toggle('hide', !empty);
-    el.burger.classList.toggle('is-empty', empty);
+    el.burger.classList.remove('is-empty');
     el.tray.classList.toggle('has-stack', !empty);
     el.topBun.classList.toggle('show', S.stack.length > 0);
     el.burger.style.setProperty('--bs', trayScale(S.stack.length));
@@ -1575,6 +2002,12 @@
     if(!S || !S.running || S.servedFlag) return;
     var want = S.order.want, have = S.stack;
 
+    if(S.bun !== S.order.bun){
+      mistake('パンは ' + bunSwatch(S.order.bun,'tiny') + ' <b>' + BUNS[S.order.bun].label + '</b> を つかってね',
+              '<span class="ico">🍞</span> パンが ちがうみたい');
+      return;
+    }
+
     var sidesOk = true;
     ['potato','juice','soft','onion'].forEach(function(k){
       if((S.sides[k] || 0) !== (S.order.sides[k] || 0)) sidesOk = false;
@@ -1634,7 +2067,35 @@
     el.tray.classList.remove('shake');
     void el.tray.offsetWidth;
     el.tray.classList.add('shake');
+    if(S.lives){
+      var dead = loseHeart();
+      if(dead){
+        showHint(headline + '<br>' + detailHtml + '<br><span class="ico">💔</span> ハートが なくなった… へいてん！', 1800);
+        return;
+      }
+      showHint(headline + '<br>' + detailHtml + '<br><span class="ico">💔</span> ハート のこり ' + S.hearts + 'こ', 5200);
+      return;
+    }
     showHint(headline + '<br>' + detailHtml, 5200);
+  }
+
+  /* 3ミスモード：ハートを 1つ へらす。0に なったら おしまい */
+  function loseHeart(){
+    if(!S || !S.lives || !S.running) return false;
+    S.hearts = Math.max(0, S.hearts - 1);
+    updateHearts(true);
+    if(S.hearts > 0) return false;
+    S.servedFlag = true;
+    S.combo = 0;
+    updateHud();
+    el.palette.classList.add('locked');
+    el.sidePalette.classList.add('locked');
+    el.serve.textContent = 'つぎへ ▶';
+    el.slip.classList.add('thanks');
+    el.thanksMsg.textContent = 'ざんねん… また きてね';
+    customerLeave();
+    setTimeout(function(){ if(S) endRun('gameover'); }, 1500);
+    return true;
   }
 
   function success(){
@@ -1661,9 +2122,8 @@
     save.lifetime += gain;
     persist();
 
-    el.avatar.classList.remove('happy');
-    void el.avatar.offsetWidth;
-    el.avatar.classList.add('happy');
+    el.avatar.className = 'avatar happy';
+    say(pick(THANKS), 2300);
 
     el.slip.classList.add('thanks');
     el.thanksMsg.textContent = THANKS[(Math.random() * THANKS.length) | 0];
@@ -1687,7 +2147,8 @@
     if(mult > 1) bits.push('<b>' + S.combo + 'コンボ ×' + mult + '</b>');
     showHint('<span class="ico">⭐</span> +' + gain + 'コイン　' + bits.join('　'), 3000);
 
-    scheduleAdvance(afterServe, 1150);
+    setTimeout(function(){ if(S && S.running) customerLeave(); }, 900);
+    scheduleAdvance(afterServe, 1700);
   }
 
   function pulseCombo(){
@@ -1704,19 +2165,28 @@
     S.missed++;
     S.combo = 0;
     updateHud();
-    el.avatar.classList.remove('sad');
-    void el.avatar.offsetWidth;
-    el.avatar.classList.add('sad');
+    el.avatar.className = 'avatar sad';
+    say('えーん… まってたのに', 1900);
     el.slip.classList.add('thanks');
-    el.thanksMsg.textContent = 'あわてんぼう… つぎは がんばって！';
+    el.thanksMsg.textContent = S.lives ? 'ハートが なくなっちゃった…' : 'あわてんぼう… つぎは がんばって！';
     sfx('no');
     el.palette.classList.add('locked');
     el.sidePalette.classList.add('locked');
     el.reset.style.opacity = '.45';
     el.reset.style.pointerEvents = 'none';
     el.serve.textContent = 'つぎへ ▶';
-    showHint('<span class="ico">⏰</span> おきゃくさんが かえちゃった… つぎは いそごう！', 2200);
-    scheduleAdvance(afterServe, 950);
+    if(S.lives){
+      var dead = loseHeart();
+      if(dead){
+        showHint('<span class="ico">💔</span> ハートが なくなった… へいてん！', 1800);
+        return;
+      }
+      showHint('<span class="ico">⏰</span> おきゃくさんが かえちゃった… ハート のこり ' + S.hearts + 'こ', 2400);
+    }else{
+      showHint('<span class="ico">⏰</span> おきゃくさんが かえちゃった… つぎは いそごう！', 2200);
+    }
+    setTimeout(function(){ if(S && S.running) customerLeave(); }, 700);
+    scheduleAdvance(afterServe, 1450);
   }
 
   function afterServe(){
@@ -1816,13 +2286,15 @@
     var isNewBest = false;
     if(S.mode60){
       if(S.coins > save.best60){ save.best60 = S.coins; isNewBest = true; }
+    }else if(S.lives){
+      if(S.served > save.bestLives){ save.bestLives = S.served; isNewBest = true; }
     }else{
       if(S.served > save.bestChill){ save.bestChill = S.served; isNewBest = true; }
     }
     save.plays++;
     persist();
 
-    if(reason === 'time') sfx('timeup');
+    if(reason === 'time' || reason === 'gameover') sfx('timeup');
 
     renderResult(isNewBest);
     showScreen('result');
@@ -1834,29 +2306,33 @@
     lastRun = { mode:S.mode, coins:S.coins, served:S.served, maxCombo:S.maxCombo, missed:S.missed };
 
     var perfectish = S.missed === 0 && S.mode60;
-    el.resEmoji.textContent = S.mode60 ? (perfectish ? '🏆' : '⏰') : '🎉';
-    el.resTitle.textContent = S.mode60
-      ? (S.timeLeft <= 0 ? '60びょう しゅうりょう！' : 'おつかれさま！')
-      : 'おしごと かんりょう！';
+    if(S.lives && S.hearts <= 0){
+      el.resEmoji.textContent = '😵';
+      el.resTitle.textContent = 'ざんねん… へいてん！';
+    }else if(S.mode60){
+      el.resEmoji.textContent = perfectish ? '🏆' : '⏰';
+      el.resTitle.textContent = S.timeLeft <= 0 ? '60びょう しゅうりょう！' : 'おつかれさま！';
+    }else{
+      el.resEmoji.textContent = '🎉';
+      el.resTitle.textContent = 'おしごと かんりょう！';
+    }
     el.totalCoin.textContent = S.coins;
 
     var bits = [];
-    if(S.mode60){
-      bits.push('おきゃくさん ' + S.served + 'にん');
-      if(S.missed) bits.push('のがした ' + S.missed + 'にん');
-    }else{
-      bits.push('おきゃくさん ' + S.served + 'にん');
-    }
+    bits.push('おきゃくさん ' + S.served + 'にん');
+    if(S.missed) bits.push('のがした ' + S.missed + 'にん');
+    if(S.lives) bits.push('ハート ' + S.hearts + 'こ');
     bits.push('さいだい ' + S.maxCombo + 'コンボ');
     el.resSub.textContent = bits.join(' ／ ');
 
     if(isNewBest){
-      el.bestLine.textContent = '🏅 ハイスコア こうしん！ ' + (S.mode60 ? save.best60 : save.bestChill) + (S.mode60 ? '' : 'にん');
+      el.bestLine.textContent = '🏅 ハイスコア こうしん！ ' +
+        (S.mode60 ? save.best60 : S.lives ? save.bestLives + 'にん' : save.bestChill + 'にん');
       el.bestLine.classList.add('new');
     }else{
       el.bestLine.textContent = S.mode60
         ? '🏅 ハイスコア ' + save.best60
-        : '🏅 さいこう ' + save.bestChill + 'にん';
+        : S.lives ? '❤️ さいこう ' + save.bestLives + 'にん' : '🏅 さいこう ' + save.bestChill + 'にん';
       el.bestLine.classList.remove('new');
     }
 
@@ -1868,6 +2344,10 @@
       el.rankup.classList.remove('show');
     }
 
+    renderUnlockBox();
+  }
+
+  function renderUnlockBox(){
     var nx = nextShopItem();
     if(nx){
       var d = nx.kind === 'ing' ? ING[nx.id] : SIDE[nx.id];
@@ -1883,7 +2363,6 @@
     }else{
       el.ulName.textContent = 'ぜんぶ かいほうずみ！';
       el.ulBar.style.width = '100%';
-      var nxt = RANKS[Math.min(RANKS.length - 1, rankIndex(save.lifetime) + 1)];
       el.ulText.innerHTML = '👑 つぎの ランクまで あと <b>' + Math.max(0, RANKS[RANKS.length-1].need - save.lifetime) + '</b> コイン';
     }
   }
@@ -1955,6 +2434,224 @@
     p.style.fontSize = '15px';
     el.fx.appendChild(p);
     setTimeout(function(){ if(p.parentNode) p.parentNode.removeChild(p); }, 1100);
+  }
+
+  /* =========================================================
+     おきゃくさん モード（プレイヤーが おきゃくさん）
+     ========================================================= */
+  function stampMarkup(n){
+    var h = '';
+    for(var i=0;i<6;i++) h += '<i class="' + (i < n ? '' : 'off') + '">⭐</i>';
+    return h;
+  }
+  function chefSay(text, pop){
+    el.chefBubble.textContent = text;
+    if(pop !== false){
+      el.chefBubble.classList.remove('pop');
+      void el.chefBubble.offsetWidth;
+      el.chefBubble.classList.add('pop');
+    }
+  }
+  function startCust(){
+    if(advTimer){ clearTimeout(advTimer); advTimer = null; }
+    S = null;
+    C = { bun:'normal', stack:[], sides:{}, phase:'pick', coins:0, stamps:0, built:[], busy:false };
+    el.cBurger.classList.remove('eat');
+    el.chefEmoji.textContent = '🐰';
+    el.chefEmoji.classList.remove('busy');
+    renderCustAll();
+    showScreen('cust');
+    chefSay('すきな バーガーを つくってね！');
+    sfx('bell');
+  }
+  function renderCustAll(){
+    if(!C) return;
+    el.cCoin.textContent = C.coins;
+    el.stampRow.innerHTML = stampMarkup(C.stamps);
+    renderCustBuns();
+    renderCustPalette();
+    renderCustTray();
+    renderCustButtons();
+  }
+  function renderCustBuns(){
+    if(!C) return;
+    var h = '';
+    BUN_KEYS.forEach(function(k){
+      h += '<button class="bun-btn' + (C.bun === k ? ' on' : '') + '" data-cbun="' + k + '">' +
+             bunSwatch(k) + '<span>' + BUNS[k].label + '</span></button>';
+    });
+    el.cBunPal.innerHTML = h;
+  }
+  function renderCustPalette(){
+    if(!C) return;
+    var h = '';
+    unlockedIngs().forEach(function(k){
+      var d = ING[k];
+      h += '<button class="ing" data-cadd="' + k + '" aria-label="' + d.label + 'を のせる">' +
+             '<span class="ico">' + d.ico + '</span><span class="lbl">' + d.label + '</span></button>';
+    });
+    el.cPalette.innerHTML = h;
+    var sh = '';
+    unlockedSides().forEach(function(k){
+      var d = SIDE[k];
+      sh += '<button class="ing side-btn' + (C.sides[k] ? ' on' : '') + '" data-cside="' + k + '" aria-label="' + d.label + 'を つける">' +
+              '<span class="ico">' + d.ico + '</span><span class="lbl">' + d.label + '</span></button>';
+    });
+    el.cSidePal.innerHTML = sh;
+  }
+  function custViewStack(){
+    if(!C) return [];
+    if(C.phase === 'pick') return C.stack.slice().reverse();
+    return C.built.slice();
+  }
+  function renderCustBurger(view, bunKey){
+    var cls = BUNS[bunKey].cls;
+    var html = '<div class="layer bun-bottom ' + cls + '"></div>';
+    view.forEach(function(k, i){
+      html += '<div class="layer ' + k + (i === view.length - 1 ? ' pop' : '') + '"></div>';
+    });
+    html += '<div class="layer bun-top ' + cls + (view.length ? ' show' : '') + '"></div>';
+    el.cBurger.innerHTML = html;
+  }
+  function renderCustTray(){
+    if(!C) return;
+    var view = custViewStack();
+    renderCustBurger(view, C.bun);
+    var h = '';
+    Object.keys(C.sides).forEach(function(k){
+      if(!C.sides[k]) return;
+      h += '<span class="side"><span class="semo">' + SIDE[k].ico + '</span>' +
+           '<span class="slbl">' + SIDE[k].label + '</span></span>';
+    });
+    el.cSides.innerHTML = h;
+    el.cSides.classList.toggle('many', Object.keys(C.sides).length > 2);
+    el.cEmpty.classList.add('hide');
+    el.cBurger.classList.remove('is-empty');
+    el.cTray.classList.toggle('has-stack', view.length > 0);
+    el.cBurger.style.setProperty('--bs', trayScale(view.length));
+    el.cBurger.style.setProperty('--tx', Object.keys(C.sides).length ? '-30px' : '0px');
+  }
+  function renderCustButtons(){
+    if(!C) return;
+    var b = el.cOrderBtn, ph = C.phase;
+    b.disabled = false;
+    if(ph === 'pick'){ b.textContent = 'これで ちゅうもん！'; b.disabled = C.stack.length === 0; }
+    else if(ph === 'build'){ b.textContent = 'つくってるよ…'; b.disabled = true; }
+    else if(ph === 'eating'){ b.textContent = 'もぐもぐ…'; b.disabled = true; }
+    else if(ph === 'eat'){ b.textContent = '🍔 たべる！'; }
+    else { b.textContent = 'もう いっかい つくる！'; }
+    var lock = ph !== 'pick';
+    el.cPalette.classList.toggle('locked', lock);
+    el.cSidePal.classList.toggle('locked', lock);
+    el.cBunPal.classList.toggle('locked', lock);
+  }
+  function custAdd(k){
+    if(!C || C.phase !== 'pick') return;
+    if(C.stack.length >= 4){ chefSay('ぐざいは 4こまで だよ！'); sfx('no'); return; }
+    C.stack.push(k);
+    sfx('tap');
+    renderCustTray(); renderCustPalette(); renderCustButtons();
+  }
+  function custRemove(){
+    if(!C || C.phase !== 'pick' || !C.stack.length) return;
+    C.stack.pop();
+    sfx('remove');
+    renderCustTray(); renderCustPalette(); renderCustButtons();
+  }
+  function custSide(k){
+    if(!C || C.phase !== 'pick') return;
+    if(C.sides[k]){ delete C.sides[k]; sfx('remove'); }
+    else {
+      var n = Object.keys(C.sides).length;
+      if(n >= 2){ chefSay('サイドは 2こまで だよ'); sfx('no'); return; }
+      C.sides[k] = 1; sfx('side');
+    }
+    renderCustTray(); renderCustPalette();
+  }
+  function custOrder(){
+    if(!C || C.busy) return;
+    if(C.phase === 'eat'){ custEat(); return; }
+    if(C.phase === 'done'){ custReset(); return; }
+    if(C.phase !== 'pick') return;
+    if(!C.stack.length){ chefSay('ぐざいを 1こ いれてね'); sfx('no'); return; }
+    C.phase = 'build'; C.busy = true; C.built = [];
+    renderCustTray(); renderCustPalette(); renderCustButtons();
+    chefSay('おまかせください！');
+    sfx('tap');
+    el.chefEmoji.classList.add('busy');
+    var seq = C.stack.slice().reverse();
+    var i = 0;
+    (function step(){
+      if(!C) return;
+      if(i >= seq.length){
+        el.chefEmoji.classList.remove('busy');
+        C.phase = 'eat'; C.busy = false;
+        chefSay('おまちどうさま！ どうぞ！');
+        sfx('win');
+        confetti(10);
+        renderCustTray(); renderCustButtons();
+        return;
+      }
+      C.built.push(seq[i]);
+      i++;
+      sfx('ton');
+      renderCustTray();
+      setTimeout(step, 430);
+    })();
+  }
+  function custEat(){
+    if(!C || C.busy || C.phase !== 'eat') return;
+    C.busy = true; C.phase = 'eating';
+    renderCustButtons();
+    chefSay('もぐもぐ…');
+    sfx('mogu');
+    el.cBurger.classList.remove('eat');
+    void el.cBurger.offsetWidth;
+    el.cBurger.classList.add('eat');
+    setTimeout(function(){
+      if(!C) return;
+      el.cBurger.classList.remove('eat');
+      var gain = 3 + C.stack.length + Object.keys(C.sides).length;
+      C.coins += gain;
+      save.coins += gain;
+      save.lifetime += gain;
+      persist();
+      C.stamps++;
+      C.phase = 'done'; C.busy = false;
+      el.cCoin.textContent = C.coins;
+      el.stampRow.innerHTML = stampMarkup(C.stamps);
+      chefSay('おいしい！ ありがとう！');
+      sfx('yum');
+      confetti(20);
+      floatCoinAt('+' + gain + ' コイン', 0.34);
+      if(C.stamps === 6){ setTimeout(function(){ if(C) chefSay('スタンプ 6こ たまったよ！ すごい！'); }, 900); }
+      renderCustButtons();
+    }, 1250);
+  }
+  function custReset(){
+    if(!C) return;
+    C.bun = 'normal'; C.stack = []; C.sides = {}; C.built = [];
+    C.phase = 'pick'; C.busy = false;
+    renderCustTray(); renderCustPalette(); renderCustBuns(); renderCustButtons();
+    chefSay('つぎは なにに する？');
+    sfx('tap');
+  }
+  function endCust(){
+    if(!C) return;
+    var c = C; C = null;
+    el.cBurger.classList.remove('eat');
+    el.chefEmoji.classList.remove('busy');
+    el.resEmoji.textContent = '😋';
+    el.resTitle.textContent = 'おきゃくさん おつかれさま！';
+    el.totalCoin.textContent = c.coins;
+    el.resSub.textContent = 'たべた バーガー ' + c.stamps + 'こ';
+    el.bestLine.textContent = '🪙 コインは おみせで つかえるよ';
+    el.bestLine.classList.remove('new');
+    el.rankup.classList.remove('show');
+    lastRun = { mode:'cust', coins:c.coins, served:c.stamps, maxCombo:0, missed:0 };
+    renderUnlockBox();
+    showScreen('result');
+    sfx('clear');
   }
 
   /* =========================================================
@@ -2033,6 +2730,42 @@
 
   el.mode60.addEventListener('click', function(){ sfx('tap'); startRun('60'); });
   el.modeChill.addEventListener('click', function(){ sfx('tap'); startRun('chill'); });
+  el.modeLives.addEventListener('click', function(){ sfx('tap'); startRun('lives'); });
+  el.roleStaff.addEventListener('click', function(){ setRole('staff'); });
+  el.roleCust.addEventListener('click', function(){ setRole('cust'); });
+  el.custStart.addEventListener('click', function(){ sfx('tap'); startCust(); });
+
+  /* パンえらび */
+  el.bunPal.addEventListener('click', function(e){
+    var b = e.target.closest('button[data-bun]');
+    if(!b) return;
+    chooseBun(b.getAttribute('data-bun'));
+  });
+
+  /* おきゃくさんモードの そうさ */
+  el.cBunPal.addEventListener('click', function(e){
+    var b = e.target.closest('button[data-cbun]');
+    if(!b || !C || C.phase !== 'pick') return;
+    C.bun = b.getAttribute('data-cbun');
+    sfx('side');
+    renderCustBuns(); renderCustTray();
+  });
+  el.cPalette.addEventListener('click', function(e){
+    var b = e.target.closest('button[data-cadd]');
+    if(!b) return;
+    custAdd(b.getAttribute('data-cadd'));
+  });
+  el.cSidePal.addEventListener('click', function(e){
+    var b = e.target.closest('button[data-cside]');
+    if(!b) return;
+    custSide(b.getAttribute('data-cside'));
+  });
+  el.cBurger.addEventListener('click', function(){ custRemove(); });
+  el.cOrderBtn.addEventListener('click', function(){
+    if(!C) return;
+    custOrder();
+  });
+  el.cEnd.addEventListener('click', function(){ sfx('tap'); endCust(); });
 
   el.shopBtn.addEventListener('click', function(){ sfx('tap'); openShop(); });
   el.resShop.addEventListener('click', function(){ sfx('tap'); openShop(); });
@@ -2042,7 +2775,8 @@
   el.again.addEventListener('click', function(){
     var mode = lastRun ? lastRun.mode : '60';
     sfx('tap');
-    startRun(mode);
+    if(mode === 'cust') startCust();
+    else startRun(mode);
   });
   el.resTitleBtn.addEventListener('click', function(){
     sfx('tap');
