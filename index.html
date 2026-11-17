@@ -22,7 +22,7 @@
     --line:#efdcc0;
   }
   *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  .emo, .avatar, .bi, .si-ico, .m-ico, .ico, .sside .sico, .side, .result-emoji, .conf, .coin-total .c,
+  .emo, .avatar, .bi, .si-ico, .m-ico, .ico, .sp-ico, .side, .side .semo, .result-emoji, .conf, .coin-total .c,
   .coin-pill .c, .ck-emoji, .title-art .spark, .tray-empty .big, .timer-pill span, .served-pill span,
   .combo-badge span, .stat .sv .e, .rank-ico, .shop-tool, .row-e{
     font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","EmojiOne Color",sans-serif;
@@ -84,7 +84,7 @@
     position:relative;
     display:flex; flex-direction:column-reverse; align-items:center;
     filter:drop-shadow(0 8px 6px rgba(140,80,20,.18));
-    transform:scale(var(--bs,1.12)); transform-origin:center center;
+    transform:translateX(var(--tx,0px)) scale(var(--bs,1.12)); transform-origin:center center;
     transition:transform .2s ease;
   }
   .layer{ flex:0 0 auto; position:relative; }
@@ -148,7 +148,7 @@
     border-radius:12px;
     box-shadow:inset 0 -3px 0 rgba(190,160,80,.22);
   }
-  .egg::after{
+  .layer.egg::after{
     content:""; position:absolute; left:50%; top:50%;
     transform:translate(-50%,-50%);
     width:30px; height:15px; border-radius:50%;
@@ -274,7 +274,8 @@
   }
   .waitbar.mid i{ background:linear-gradient(90deg,#ffd23d,#ffb02e); }
   .waitbar.low i{ background:linear-gradient(90deg,#ff8a6b,#ff5252); }
-  .slip-body{ min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+  .slip-main{ display:flex; gap:6px; min-height:0; flex:1 1 auto; }
+  .slip-body{ flex:1 1 auto; min-width:0; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch; }
   .slip-stack{ display:flex; flex-direction:column; gap:2px; }
   .srow{ display:flex; align-items:center; gap:3px; }
   .snum{
@@ -313,19 +314,35 @@
   .band.bun{ background:linear-gradient(180deg,#f8cf8a,#ecb463); color:#6b4413; }
   .band.bunrow-top{ border-radius:16px 16px 7px 7px; }
   .band.bunrow-bottom{ border-radius:7px 7px 16px 16px; }
-  .slip-sides{ display:flex; flex-wrap:wrap; align-items:center; gap:5px; margin-top:5px; }
-  .slip-sides:empty{ display:none; }
-  .sside-lbl{
-    font-size:9.5px; letter-spacing:.12em; color:#7ba7c4;
-    background:#eaf6ff; border-radius:6px; padding:2px 5px;
+  /* ---------- サイド（伝票の右の せんようわく） ---------- */
+  .side-panel{
+    flex:0 0 auto; width:92px;
+    display:flex; flex-direction:column; gap:3px;
+    padding:3px; border-radius:14px;
+    background:#e3f6ff; border:2.5px solid #9bd5ef;
+    box-shadow:0 3px 0 rgba(120,180,220,.22);
+    transition:border-color .2s, background .2s;
   }
-  .sside{
-    display:inline-flex; align-items:center; gap:3px;
-    background:#eff9ff; border:2px solid #cdeaff; border-radius:999px;
-    padding:1px 8px 1px 5px; font-size:12.5px; color:#22627f;
+  .side-panel.has{
+    border-color:#4fb3e0;
+    background:linear-gradient(180deg,#eefaff,#d4efff);
   }
-  .sside .sico{ font-size:15px; }
-  .sside b{ font-size:12px; }
+  .sp-head{
+    flex:0 0 auto; text-align:center; font-size:10.5px; letter-spacing:.1em;
+    color:#fff; background:linear-gradient(180deg,#6cc3e8,#3a9fd1);
+    border-radius:8px; padding:2px 0 3px;
+  }
+  .sp-list{ flex:1 1 auto; display:flex; flex-direction:column; gap:4px; justify-content:center; }
+  .sp-item{
+    display:flex; align-items:center; gap:2px;
+    background:#fff; border-radius:10px; padding:2px 3px 2px 2px;
+    box-shadow:0 2px 0 rgba(130,190,220,.28), 0 0 0 1.5px #bfe4f7 inset;
+  }
+  .sp-ico{ font-size:26px; line-height:1; flex:0 0 auto; }
+  .sp-txt{ display:flex; flex-direction:column; line-height:1.06; min-width:0; }
+  .sp-lbl{ font-size:10.5px; color:#12506b; white-space:nowrap; letter-spacing:-.05em; }
+  .sp-num{ font-size:12.5px; color:#0a6a95; }
+  .sp-none{ text-align:center; font-size:11px; color:#8fb8cc; padding:8px 0; }
   .slip-cap{ font-size:9.5px; color:#c4a883; text-align:center; margin-top:4px; letter-spacing:.02em; }
   .slip.dense .band{ height:23px; font-size:12.5px; }
   .slip.dense .band .bi{ font-size:15px; }
@@ -379,13 +396,18 @@
   .tray .burger{ z-index:2; }
   .tray .burger.is-empty{ opacity:0; }
   .sides{
-    position:absolute; right:8px; bottom:8px;
-    display:flex; flex-direction:column; gap:4px; align-items:center; z-index:4;
+    position:absolute; right:6px; top:50%; transform:translateY(-50%);
+    display:flex; flex-direction:column; gap:5px; align-items:center; z-index:4;
   }
   .side{
-    font-size:30px; line-height:1; cursor:pointer;
-    filter:drop-shadow(0 3px 2px rgba(140,90,30,.25));
+    display:flex; flex-direction:column; align-items:center; gap:0;
+    cursor:pointer; padding:2px 6px 3px;
+    background:rgba(255,255,255,.96);
+    border:2.5px solid #b5e0f5; border-radius:14px;
+    box-shadow:0 3px 0 rgba(150,200,225,.35), 0 4px 10px rgba(120,170,200,.15);
   }
+  .side .semo{ font-size:34px; line-height:1.02; filter:drop-shadow(0 2px 1px rgba(140,90,30,.22)); }
+  .side .slbl{ font-size:9px; color:#1d6b8c; letter-spacing:-.02em; white-space:nowrap; }
   .side.pop{ animation:pop .34s cubic-bezier(.2,1.5,.5,1); }
 
   /* ---------- hint ---------- */
@@ -396,6 +418,7 @@
     color:#b3702a; opacity:0; transition:opacity .2s;
   }
   .hint.show{ opacity:1; }
+  .hint .hx{ display:block; }
   .hint .ico{ font-size:13px; }
   .hint b{ color:#d64b1c; }
 
@@ -759,7 +782,7 @@
           <button class="tool-btn" id="shopBtn">🛍️ おみせ</button>
           <button class="tool-btn snd" id="soundBtnTitle" aria-label="おとの せってい">🔊</button>
         </div>
-        <p class="title-foot">ぐざいを したから じゅんばんに のせてね</p>
+        <p class="title-foot">ぐざいを うえから じゅんばんに のせてね</p>
       </div>
     </section>
 
@@ -781,10 +804,15 @@
             <span class="slip-who" id="who">うさぎの ぽんた</span>
           </div>
           <div class="waitbar" id="waitbar"><i id="waitfill"></i></div>
-          <div class="slip-body" id="slipBody">
-            <div class="slip-stack" id="slipStack"></div>
-            <div class="slip-sides" id="slipSides"></div>
-            <div class="slip-cap" id="slipCap">①から したから のせてね</div>
+          <div class="slip-main">
+            <div class="slip-body" id="slipBody">
+              <div class="slip-stack" id="slipStack"></div>
+              <div class="slip-cap" id="slipCap">①から うえから のせてね</div>
+            </div>
+            <div class="side-panel" id="sidePanel">
+              <div class="sp-head">サイド</div>
+              <div class="sp-list" id="sideList"></div>
+            </div>
           </div>
           <div class="thanks-msg" id="thanksMsg">ありがとう！</div>
         </div>
@@ -1074,7 +1102,8 @@
     timerPill:$('timerPill'), timeNum:$('timeNum'), servedPill:$('servedPill'), servedNum:$('servedNum'),
     endBtn:$('endBtn'),
     avatar:$('avatar'), who:$('who'), slip:$('slip'), waitbar:$('waitbar'), waitfill:$('waitfill'),
-    slipStack:$('slipStack'), slipSides:$('slipSides'), slipCap:$('slipCap'), thanksMsg:$('thanksMsg'),
+    slipStack:$('slipStack'), slipCap:$('slipCap'), thanksMsg:$('thanksMsg'),
+    sidePanel:$('sidePanel'), sideList:$('sideList'),
     tray:$('tray'), trayEmpty:$('trayEmpty'), burger:$('burger'), topBun:$('topBun'), sides:$('sides'),
     hint:$('hint'), palette:$('palette'), sidePalette:$('sidePalette'),
     reset:$('resetBtn'), serve:$('serveBtn'),
@@ -1371,27 +1400,34 @@
     el.avatar.setAttribute('aria-label', c.who);
     el.who.textContent = c.who;
 
+    /* 伝票は うえから ①→②→③ の じゅんばん（おぼんの みためと そろえる） */
     var rows = '';
     el.slip.classList.toggle('dense', o.want.length >= 5);
     rows += srow('🍞', 'バン（うえ）', 'bun bunrow-top', 'うえ', -1, true);
-    for(var i = o.want.length - 1; i >= 0; i--){
+    for(var i = 0; i < o.want.length; i++){
       var k = o.want[i], d = ING[k];
       rows += srow(d.ico, d.label, k, CIRCLED[i] || (i+1), i, false);
     }
     rows += srow('🍞', 'バン（した）', 'bun bunrow-bottom', 'した', -1, true);
     el.slipStack.innerHTML = rows;
 
+    /* サイドは 右の せんようわくに 大きく */
+    var sideKeys = Object.keys(o.sides).filter(function(sk){ return o.sides[sk] > 0; });
     var sh = '';
-    var sideKeys = Object.keys(o.sides);
-    if(sideKeys.length){
-      sh += '<span class="sside-lbl">サイド</span>';
+    if(!sideKeys.length){
+      sh = '<span class="sp-none">なし</span>';
+    }else{
       sideKeys.forEach(function(sk){
-        sh += '<span class="sside"><span class="sico">' + SIDE[sk].ico + '</span>' +
-              SIDE[sk].label + '<b>×' + o.sides[sk] + '</b></span>';
+        sh += '<span class="sp-item">' +
+                '<span class="sp-ico">' + SIDE[sk].ico + '</span>' +
+                '<span class="sp-txt"><span class="sp-lbl">' + SIDE[sk].label + '</span>' +
+                '<b class="sp-num">×' + o.sides[sk] + '</b></span>' +
+              '</span>';
       });
     }
-    el.slipSides.innerHTML = sh;
-    el.slipCap.textContent = '①から したから のせてね';
+    el.sideList.innerHTML = sh;
+    el.sidePanel.classList.toggle('has', sideKeys.length > 0);
+    el.slipCap.textContent = '①から うえから のせてね';
     el.slipCap.style.display = '';
   }
 
@@ -1434,6 +1470,9 @@
     el.tray.classList.toggle('has-stack', !empty);
     el.topBun.classList.toggle('show', S.stack.length > 0);
     el.burger.style.setProperty('--bs', trayScale(S.stack.length));
+    var hasSides = sideTotal() > 0;
+    el.tray.classList.toggle('has-sides', hasSides);
+    el.burger.style.setProperty('--tx', hasSides ? '-30px' : '0px');
   }
 
   function sideTotal(){
@@ -1448,7 +1487,8 @@
     S.stack.push(key);
     var node = document.createElement('div');
     node.className = 'layer ' + key + ' pop';
-    el.burger.insertBefore(node, el.topBun);
+    /* さきに おいた ぐざいの すぐ したに 入れて、うえ→した に つみあげる */
+    el.burger.insertBefore(node, el.burger.children[1] || el.topBun);
     updateTrayEmpty();
     markSlip();
     sfx('tap');
@@ -1457,8 +1497,8 @@
   function removeLayer(){
     if(!S || !S.running || S.servedFlag || S.stack.length === 0) return;
     S.stack.pop();
-    var last = el.topBun.previousElementSibling;
-    if(last && last !== el.burger.firstElementChild){
+    var last = el.burger.children[1];
+    if(last && last !== el.topBun){
       last.parentNode.removeChild(last);
     }
     updateTrayEmpty();
@@ -1482,7 +1522,8 @@
       if(!S.sides[k]) return;
       var s = document.createElement('span');
       s.className = 'side' + (animKey === k ? ' pop' : '');
-      s.textContent = SIDE[k].ico;
+      s.innerHTML = '<span class="semo">' + SIDE[k].ico + '</span>' +
+                    '<span class="slbl">' + SIDE[k].label + '</span>';
       s.setAttribute('role','button');
       s.setAttribute('aria-label', SIDE[k].label + 'を とる');
       s.setAttribute('data-side', k);
@@ -1509,7 +1550,7 @@
     if(hintTimer){ clearTimeout(hintTimer); hintTimer = null; }
   }
   function showHint(html, ms){
-    el.hint.innerHTML = html;
+    el.hint.innerHTML = '<span class="hx">' + html + '</span>';
     el.hint.classList.add('show');
     if(hintTimer) clearTimeout(hintTimer);
     hintTimer = setTimeout(function(){ el.hint.classList.remove('show'); }, ms || 4200);
@@ -1538,7 +1579,7 @@
       var idx = 0;
       while(idx < have.length && have[idx] === want[idx]) idx++;
       var need = ING[want[idx]];
-      mistake('<b>' + (CIRCLED[idx] || (idx+1)) + 'ばんめ</b>は ' + need.ico + ' ' + need.label + ' だよ。したから かぞえてね',
+      mistake('うえから <b>' + (CIRCLED[idx] || (idx+1)) + '</b> は ' + need.ico + ' ' + need.label + ' だよ',
               '<span class="ico">🙂</span> じゅんばんが ちがうみたい');
       return;
     }
@@ -1931,7 +1972,7 @@
     if(e.target === el.topBun || (e.target.classList && e.target.classList.contains('layer'))){
       if(S.stack.length){
         removeLayer();
-        showHint('<span class="ico">👆</span> うえの ぐざいを とったよ', 1600);
+        showHint('<span class="ico">👆</span> さいごに のせた ぐざいを とったよ', 1600);
       }
     }
   });
